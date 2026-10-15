@@ -1,0 +1,9 @@
+node_modules/
+data/
+*.log
+.DS_Store
+.soloeng-write-probe
+
+# 抓取到的官方词典页面原文：受版权保护，不随仓库分发。
+# 需要时运行 npm run spike 在本机重新抓取（见 README「测试数据」）。
+fixtures/html/

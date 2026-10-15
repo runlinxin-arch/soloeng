@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>个人英语学习</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header id="statusbar" class="statusbar"></header>
+
+<main class="wrap">
+
+  <!-- ============ 查词页 ============ -->
+  <section id="page-query" class="page">
+    <div class="search">
+      <svg class="search-icon" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" focusable="false">
+        <circle cx="8.5" cy="8.5" r="5.6" fill="none" stroke="currentColor" stroke-width="1.8"></circle>
+        <line x1="12.7" y1="12.7" x2="17.2" y2="17.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></line>
+      </svg>
+      <input id="word-input" type="text" autocomplete="off" autocapitalize="off"
+             spellcheck="false" aria-label="查一个英文单词"
+             placeholder="输入一个英文单词，回车即查">
+      <button class="search-clear" id="search-clear" type="button" hidden aria-label="清空输入">
+        <svg viewBox="0 0 20 20" width="13" height="13" aria-hidden="true" focusable="false">
+          <line x1="5" y1="5" x2="15" y2="15" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></line>
+          <line x1="15" y1="5" x2="5" y2="15" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></line>
+        </svg>
+        <span>清空</span>
+      </button>
+    </div>
+
+    <div class="search-tools">
+      <label class="checkbox"><input type="checkbox" id="no-save"> 这次不保存</label>
+      <span id="input-hint" class="hint-error"></span>
+      <div class="dropdown length-mode" id="length-dropdown">
+        <button type="button" class="btn-pill dropdown-trigger" id="length-trigger"
+                aria-haspopup="listbox" aria-expanded="false" aria-controls="length-list">
+          <span id="length-value">标准</span>
+          <svg class="dropdown-chevron" viewBox="0 0 20 20" width="14" height="14" aria-hidden="true" focusable="false">
+            <path d="M5.5 8l4.5 4.5L14.5 8" fill="none" stroke="currentColor" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </button>
+
+        <div class="dropdown-panel" id="length-panel" hidden>
+          <div class="dropdown-highlight" id="length-highlight" aria-hidden="true"></div>
+          <ul class="dropdown-list" id="length-list" role="listbox" aria-label="长度档位" tabindex="-1">
+            <li role="option" id="length-opt-quick" data-value="quick" aria-selected="false">速查</li>
+            <li role="option" id="length-opt-standard" data-value="standard" aria-selected="true">标准</li>
+            <li role="option" id="length-opt-intensive" data-value="intensive" aria-selected="false">精读</li>
+          </ul>
+        </div>
+
+        <input type="hidden" id="length-mode" value="standard">
+      </div>
+    </div>
+
+    <div id="syntax-hint" class="syntax">
+      <span class="syntax-label">试试</span>
+      <button class="chip" type="button" data-fill="affect">affect</button>
+      <button class="chip" type="button" data-fill="affect vs effect">affect vs effect</button>
+      <button class="chip" type="button" data-fill="affect 词根">affect 词根</button>
+    </div>
+
+    <div id="recent"></div>
+
+    <div id="result" class="result"></div>
+  </section>
+
+  <!-- ============ 复习页 ============ -->
+  <section id="page-review" class="page" hidden>
+    <div class="row-between">
+      <button class="link" data-nav="#/">← 查词</button>
+      <span id="review-progress" class="muted"></span>
+      <button class="btn-pill" data-menu="settings">设置</button>
+    </div>
+    <div id="review-body" class="review-body"></div>
+    <div id="review-actions" class="review-actions"></div>
+  </section>
+
+</main>
+
+<!-- ============ 设置弹层 ============ -->
+<div id="settings" class="modal" hidden>
+  <div class="modal-panel">
+    <div class="row-between">
+      <h2>设置</h2>
+      <button class="link" data-close="settings">关闭</button>
+    </div>
+
+    <label class="field">
+      <span>Obsidian 库路径</span>
+      <span class="field-row">
+        <input id="cfg-vault" type="text" spellcheck="false">
+        <button class="btn" id="btn-check-vault">检测</button>
+      </span>
+      <span id="vault-status" class="muted"></span>
+    </label>
+
+    <div class="field-row">
+      <label class="field half">
+        <span>每日新词上限</span>
+        <input id="cfg-new-limit" type="number" min="0">
+      </label>
+      <label class="field half">
+        <span>每日复习上限</span>
+        <input id="cfg-review-limit" type="number" min="0">
+      </label>
+    </div>
+
+    <label class="field">
+      <span>模型</span>
+      <select id="cfg-model"></select>
+    </label>
+
+    <label class="field">
+      <span>界面</span>
+      <select id="cfg-theme">
+        <option value="system">跟随系统</option>
+        <option value="light">浅色</option>
+        <option value="dark">深色</option>
+      </select>
+    </label>
+
+    <div class="field">
+      <label class="checkbox"><input type="checkbox" id="cfg-mw"> 启用 Merriam-Webster</label>
+      <span id="mw-status" class="muted"></span>
+    </div>
+
+    <div class="field">
+      <span>DeepSeek key 状态</span>
+      <span id="ds-status" class="muted"></span>
+    </div>
+
+    <div class="field">
+      <span>数据目录</span>
+      <span id="data-dir" class="muted"></span>
+    </div>
+
+    <div class="row-between">
+      <span id="save-status" class="muted"></span>
+      <button class="btn btn-primary" id="btn-save-config">保存</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

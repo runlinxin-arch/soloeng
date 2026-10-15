@@ -1,0 +1,1243 @@
+[
+  {
+    "meta": {
+      "id": "effect:1",
+      "uuid": "d9ddf6a4-0980-40db-8bae-11a49a8ced31",
+      "sort": "060429000",
+      "src": "collegiate",
+      "section": "alpha",
+      "stems": [
+        "adverse effect",
+        "adverse effects",
+        "cause and effect",
+        "effect",
+        "effects",
+        "for effect",
+        "gave effect",
+        "give effect",
+        "gives effect",
+        "giving effect",
+        "go into effect",
+        "goes into effect",
+        "going into effect",
+        "gone into effect",
+        "had the effect",
+        "had the effects",
+        "has the effect",
+        "has the effects",
+        "have the effect",
+        "have the effects",
+        "having the effect",
+        "having the effects",
+        "ill effect",
+        "ill effects",
+        "in effect",
+        "put into effect",
+        "puts into effect",
+        "putting into effect",
+        "to good effect",
+        "to good/great effect",
+        "to great effect",
+        "to little effect",
+        "to little/no effect",
+        "to no effect",
+        "to that effect",
+        "went into effect"
+      ],
+      "offensive": false
+    },
+    "hom": 1,
+    "hwi": {
+      "hw": "ef*fect",
+      "prs": [
+        {
+          "mw": "i-ˈfekt",
+          "sound": {
+            "audio": "effect01",
+            "ref": "c",
+            "stat": "1"
+          }
+        },
+        {
+          "mw": "e-"
+        },
+        {
+          "mw": "ē-"
+        },
+        {
+          "mw": "ə-"
+        }
+      ]
+    },
+    "fl": "noun",
+    "ins": [
+      {
+        "il": "plural",
+        "if": "ef*fects"
+      }
+    ],
+    "def": [
+      {
+        "sseq": [
+          [
+            [
+              "sense",
+              {
+                "sn": "1",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}an event, condition, or state of affairs that is produced by a cause {bc}{sx|result|result:2|}, {sx|outcome||} "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "the environmental {wi}effects{/wi} of the policy"
+                      },
+                      {
+                        "t": "the health {wi}effects{/wi} of exercise"
+                      },
+                      {
+                        "t": "a cumulative {wi}effect{/wi}"
+                      },
+                      {
+                        "t": "a {phrase}cause and effect{/phrase} relationship"
+                      },
+                      {
+                        "t": "suffered no {phrase}ill effects{/phrase} from the treatment"
+                      },
+                      {
+                        "t": "My comment {phrase}had the effect{/phrase} of ending the conversation."
+                      },
+                      {
+                        "t": "The pitcher used her slider {phrase}to good/great effect{/phrase}. {gloss}=with a good/great result{/gloss}"
+                      },
+                      {
+                        "t": "They've complained many times, {phrase}to little/no effect{/phrase}."
+                      },
+                      {
+                        "t": "By the turn of the century, the {phrase}adverse effects{/phrase} of using arsenic tint were widely exposed, … and the practice (thankfully) grew out of fashion.",
+                        "aq": {
+                          "auth": "Whitney Robinson"
+                        }
+                      }
+                    ]
+                  ]
+                ]
+              }
+            ]
+          ],
+          [
+            [
+              "sense",
+              {
+                "sn": "2 a",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}a distinctive impression "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "The color gives the {wi}effect{/wi} of warmth."
+                      },
+                      {
+                        "t": "The moon's low placement in the sky could also cause the orb to appear bigger than usual, according to NASA, due to an {wi}effect{/wi} dubbed the moon illusion.",
+                        "aq": {
+                          "auth": "Taylor Nicioli"
+                        }
+                      }
+                    ]
+                  ]
+                ]
+              }
+            ],
+            [
+              "sense",
+              {
+                "sn": "b",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}the creation of a desired impression "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "He paused for dramatic {wi}effect{/wi} before making the big announcement."
+                      },
+                      {
+                        "t": "Reynaldo revved the engine {phrase}for effect{/phrase}, which made his father laugh.",
+                        "aq": {
+                          "auth": "Nell Salzman"
+                        }
+                      }
+                    ]
+                  ]
+                ]
+              }
+            ],
+            [
+              "pseq",
+              [
+                [
+                  "bs",
+                  {
+                    "sense": {
+                      "sn": "c",
+                      "dt": [
+                        [
+                          "text",
+                          "{bc}something designed to produce a distinctive or desired impression: such as"
+                        ]
+                      ]
+                    }
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(1)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}something that alters an artistic work in order to enhance the illusion of reality or heighten dramatic appeal "
+                      ],
+                      [
+                        "uns",
+                        [
+                          [
+                            [
+                              "text",
+                              "usually plural "
+                            ],
+                            [
+                              "vis",
+                              [
+                                {
+                                  "t": "the play's use of lighting {wi}effects{/wi}"
+                                },
+                                {
+                                  "t": "We're grateful that the movie doesn't try … to inflate its simple narrative with grandiose action-movie {wi}effects{/wi}.",
+                                  "aq": {
+                                    "auth": "Terrence Rafferty"
+                                  }
+                                }
+                              ]
+                            ]
+                          ]
+                        ]
+                      ],
+                      [
+                        "text",
+                        " {dx}see also {dxt|sound effects|sound effects|}, {dxt|special effects|special effects|}{/dx}"
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  "sense",
+                  {
+                    "sn": "(2)",
+                    "dt": [
+                      [
+                        "text",
+                        "{bc}something that alters a sung, played, or recorded sound in order to produce a desired quality "
+                      ],
+                      [
+                        "uns",
+                        [
+                          [
+                            [
+                              "text",
+                              "usually plural "
+                            ],
+                            [
+                              "vis",
+                              [
+                                {
+                                  "t": "[Les] Paul is also credited with helping pioneer several recording techniques, including delay {wi}effects{/wi} … and overdubbing.",
+                                  "aq": {
+                                    "auth": "Troy Smith"
+                                  }
+                                },
+                                {
+                                  "t": "As you arrange your samples, you can add {wi}effects{/wi} like reverb, raise or lower the tempo or even run the sample backward.",
+                                  "aq": {
+                                    "auth": "N'gai Croal and Walaika Haskins"
+                                  }
+                                }
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            ]
+          ],
+          [
+            [
+              "sense",
+              {
+                "sn": "3",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}the quality or state of being operative {bc}{sx|operation||} "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "The parking ban is no longer {phrase}in effect{/phrase}."
+                      },
+                      {
+                        "t": "… the … city council passed an ordinance in June of last year, {phrase}going into effect{/phrase} in October.",
+                        "aq": {
+                          "auth": "Killian Baarlaer"
+                        }
+                      },
+                      {
+                        "t": "No coastal warnings or watches were {phrase}put into effect{/phrase}.",
+                        "aq": {
+                          "source": "{it}The Associated Press{/it}"
+                        }
+                      },
+                      {
+                        "t": "The Government intends to pass legislation {phrase}giving effect{/phrase} to the reforms …",
+                        "aq": {
+                          "auth": "Thomas Coughlan"
+                        }
+                      }
+                    ]
+                  ],
+                  [
+                    "text",
+                    " {dx}see also {dxt|take effect|take effect|}{/dx}"
+                  ]
+                ]
+              }
+            ]
+          ],
+          [
+            [
+              "sense",
+              {
+                "sn": "4",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}power to bring about a result {bc}{sx|influence||} "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "The content itself of television … is therefore less important than its {wi}effect{/wi} …",
+                        "aq": {
+                          "source": "{it}Current Biography{/it}"
+                        }
+                      }
+                    ]
+                  ],
+                  [
+                    "text",
+                    " {dx}see also {dxt|take effect|take effect|}{/dx}"
+                  ]
+                ]
+              }
+            ]
+          ],
+          [
+            [
+              "sense",
+              {
+                "sn": "5",
+                "ins": [
+                  {
+                    "if": "effects",
+                    "spl": "plural"
+                  }
+                ],
+                "dt": [
+                  [
+                    "text",
+                    "{bc}movable property {bc}{sx|goods||} "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "household {wi}effects{/wi}"
+                      }
+                    ]
+                  ],
+                  [
+                    "text",
+                    " {dx}see also {dxt|personal effects|personal effects|}{/dx}"
+                  ]
+                ]
+              }
+            ]
+          ],
+          [
+            [
+              "sense",
+              {
+                "sn": "6",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}an outward sign {bc}{sx|appearance||} "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "… his sufferings, instead of exciting their compassion, have been celebrated as the visible {wi}effects{/wi} of divine justice.",
+                        "aq": {
+                          "auth": "Edward Gibbon"
+                        }
+                      }
+                    ]
+                  ]
+                ]
+              }
+            ]
+          ],
+          [
+            [
+              "sense",
+              {
+                "sn": "7",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}a goal or purpose {bc}{sx|end|end:1|} "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "Before the bond issue can move ahead, City Council must approve the cooperation agreement. Legislation {phrase}to that effect{/phrase} was introduced this week.",
+                        "aq": {
+                          "auth": "Mark Belko"
+                        }
+                      },
+                      {
+                        "t": "I desire simply to be quit of you; and {wi}to that effect{/wi}, I put a boat and complement of men at your disposal.",
+                        "aq": {
+                          "auth": "Robert Louis Stevenson"
+                        }
+                      },
+                      {
+                        "t": "Is all our travail turn'd to this {wi}effect{/wi}?",
+                        "aq": {
+                          "auth": "Shakespeare"
+                        }
+                      }
+                    ]
+                  ]
+                ]
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "dxnls": [
+      "see also {dxt|auger effect|Auger effect|}, {dxt|bandwagon effect|bandwagon effect|}, {dxt|bohr effect|Bohr effect|}, {dxt|butterfly effect|butterfly effect|}, {dxt|coriolis effect|Coriolis effect|}, {dxt|domino effect|domino effect|}, {dxt|doppler effect|Doppler effect|}, {dxt|edge effect|edge effect|}, {dxt|founder effect|founder effect|}, {dxt|greenhouse effect|greenhouse effect|}, {dxt|hall effect|Hall effect|}, {dxt|halo effect|halo effect|}, {dxt|hawthorne effect|Hawthorne effect|}, {dxt|lake effect|lake effect|}, {dxt|nocebo effect|nocebo effect|}, {dxt|photoelectric effect|photoelectric effect|}, {dxt|placebo effect|placebo effect|}, {dxt|position effect|position effect|}, {dxt|ripple effect|ripple effect|}, {dxt|side effect|side effect|}, {dxt|zeeman effect|Zeeman effect|}, {dxt|in effect||}, {dxt|to the effect||}"
+    ],
+    "quotes": [
+      {
+        "t": "Economic {qword}effects{/qword} of such high speed change are also unpredictable and somewhat chilling …",
+        "aq": {
+          "auth": "Genevieve Stuttaford",
+          "source": "{it}Publisher's Weekly{/it}",
+          "aqdate": "29 July 1996"
+        }
+      },
+      {
+        "t": "In the Spanish conquest of the Incas, guns played only a minor role.  … They did produce a big psychological {qword}effect{/qword} on those occasions when they managed to fire.",
+        "aq": {
+          "auth": "Jared M. Diamond",
+          "source": "{it}Guns, Germs, and Steel{/it}",
+          "aqdate": "1997"
+        }
+      },
+      {
+        "t": "The nation's most solvent individuals—private-equity barons—have not been immune from the ill {qword}effects{/qword} of the credit crunch.",
+        "aq": {
+          "auth": "Daniel Gross",
+          "source": "{it}Newsweek{/it}",
+          "aqdate": "3 Mar. 2008"
+        }
+      },
+      {
+        "t": "Unlike the venom of coral snakes, fer-de-lance venom has no direct {qword}effect{/qword} on the nervous system but digests muscle, destroys blood cells and causes hemorrhaging and massive edema (swelling).",
+        "aq": {
+          "auth": "Robert K. Colwell",
+          "source": "{it}Natural History{/it}",
+          "aqdate": "April 1985"
+        }
+      }
+    ],
+    "et": [
+      [
+        "text",
+        "Middle English {it}effect, effete{/it} \"achievement, result, capacity to produce a result, gist, purpose,\" borrowed from Anglo-French & Latin; Anglo-French {it}effette, effect,{/it} borrowed from Latin {it}effectus{/it} \"carrying out (of a purpose or task), result, mode of operation,\" from {it}effec-,{/it} variant stem of {it}efficere{/it} \"to make, construct, bring about, produce, carry out\" (from {it}ef-,{/it} assimilated form of {it}ex-{/it} {et_link|ex-:1|ex-:1} + {it}facere{/it} \"to do, make, bring about\") + {it}-tus,{/it} suffix of action nouns {ma}{mat|fact|}{/ma}"
+      ]
+    ],
+    "date": "14th century{ds||1||}",
+    "shortdef": [
+      "an event, condition, or state of affairs that is produced by a cause : result, outcome",
+      "a distinctive impression",
+      "the creation of a desired impression"
+    ]
+  },
+  {
+    "meta": {
+      "id": "effect:2",
+      "uuid": "0e16173f-0e2d-432f-a2e6-9439980fa29b",
+      "sort": "060430000",
+      "src": "collegiate",
+      "section": "alpha",
+      "stems": [
+        "effect",
+        "effected",
+        "effecting",
+        "effects"
+      ],
+      "offensive": false
+    },
+    "hom": 2,
+    "hwi": {
+      "hw": "effect"
+    },
+    "fl": "verb",
+    "ins": [
+      {
+        "if": "ef*fect*ed"
+      },
+      {
+        "if": "ef*fect*ing"
+      },
+      {
+        "if": "ef*fects"
+      }
+    ],
+    "def": [
+      {
+        "vd": "transitive verb",
+        "sseq": [
+          [
+            [
+              "sense",
+              {
+                "sn": "1",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to succeed in doing or achieving (something) {bc}to cause or bring about (something) {bc}{sx|accomplish||} "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "{wi}effect{/wi} a transformation in company culture"
+                      },
+                      {
+                        "t": "{wi}effected{/wi} a settlement of the dispute"
+                      },
+                      {
+                        "t": "… a powerful reminder of the potential of technology to {wi}effect{/wi} change.",
+                        "aq": {
+                          "auth": "Chris Gallagher"
+                        }
+                      }
+                    ]
+                  ]
+                ]
+              }
+            ]
+          ],
+          [
+            [
+              "sense",
+              {
+                "sn": "2",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}to put into operation "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "the duty of the legislature to {wi}effect{/wi} the will of the citizens"
+                      },
+                      {
+                        "t": "… an executive grant of clemency … to {wi}effect{/wi} the prisoner swap.",
+                        "aq": {
+                          "auth": "Eric Tucker et al."
+                        }
+                      }
+                    ]
+                  ]
+                ]
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "usages": [
+      {
+        "pl": "{parahw}effect{/parahw} vs. {parahw}affect{/parahw}",
+        "pt": [
+          [
+            "text",
+            "The words {it}effect{/it} and {it}affect{/it} are often confused. The most common use of {it}effect{/it} is as a noun referring to a change or result. "
+          ],
+          [
+            "vis",
+            [
+              {
+                "t": "The defeat had a terrible {wi}effect{/wi} on the players' spirits."
+              },
+              {
+                "t": "uncertainty about what {wi}effect{/wi} the increase will have"
+              }
+            ]
+          ],
+          [
+            "text",
+            " The most common use of {it}affect{/it} is as a verb meaning \"to produce an effect on.\" "
+          ],
+          [
+            "vis",
+            [
+              {
+                "t": "The new evidence will {wi}affect{/wi} the outcome of the trial."
+              },
+              {
+                "t": "revisions that {wi}affect{/wi} the final version"
+              }
+            ]
+          ],
+          [
+            "text",
+            " If you think of {it}affect{/it} as the verb and {it}effect{/it} as the noun, most of the time you'll be using the word you want. However, there are some exceptions. Sometimes {it}effect{/it} is used as a verb meaning \"to cause or bring about\" or \"to accomplish.\" "
+          ],
+          [
+            "vis",
+            [
+              {
+                "t": "policies that can {wi}effect{/wi} change"
+              }
+            ]
+          ],
+          [
+            "text",
+            " {it}Affect{/it} is also a noun (pronounced with stress on the first syllable) that refers to an observable emotional response. "
+          ],
+          [
+            "vis",
+            [
+              {
+                "t": "notes detailing the patient's {wi}affect{/wi}"
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "syns": [
+      {
+        "pl": "synonyms",
+        "pt": [
+          [
+            "text",
+            "{sc}perform{/sc} {sc}execute{/sc} {sc}discharge{/sc} {sc}accomplish{/sc} {sc}achieve{/sc} {sc}effect{/sc} {sc}fulfill{/sc} mean to carry out or into effect. {sc}perform{/sc} implies action that follows established patterns or procedures or fulfills agreed-upon requirements and often connotes special skill. "
+          ],
+          [
+            "vis",
+            [
+              {
+                "t": "{it}performed{/it} gymnastics"
+              }
+            ]
+          ],
+          [
+            "text",
+            " {sc}execute{/sc} stresses the carrying out of what exists in plan or in intent. "
+          ],
+          [
+            "vis",
+            [
+              {
+                "t": "{it}executed{/it} the hit-and-run"
+              }
+            ]
+          ],
+          [
+            "text",
+            " {sc}discharge{/sc} implies execution and completion of appointed duties or tasks. "
+          ],
+          [
+            "vis",
+            [
+              {
+                "t": "{it}discharged{/it} his duties"
+              }
+            ]
+          ],
+          [
+            "text",
+            " {sc}accomplish{/sc} stresses the successful completion of a process rather than the means of carrying it out. "
+          ],
+          [
+            "vis",
+            [
+              {
+                "t": "{it}accomplished{/it} everything they set out to do"
+              }
+            ]
+          ],
+          [
+            "text",
+            " {sc}achieve{/sc} adds to {sc}accomplish{/sc} the implication of conquered difficulties. "
+          ],
+          [
+            "vis",
+            [
+              {
+                "t": "{it}achieve{/it} greatness"
+              }
+            ]
+          ],
+          [
+            "text",
+            " {sc}effect{/sc} adds to {sc}achieve{/sc} an emphasis on the inherent force in the agent capable of surmounting obstacles. "
+          ],
+          [
+            "vis",
+            [
+              {
+                "t": "{it}effected{/it} sweeping reforms"
+              }
+            ]
+          ],
+          [
+            "text",
+            " {sc}fulfill{/sc} implies a complete realization of ends or possibilities. "
+          ],
+          [
+            "vis",
+            [
+              {
+                "t": "{it}fulfilled{/it} their ambitions"
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "quotes": [
+      {
+        "t": "Hitherto, while gathering up the discourse of Mr. Brocklehurst and Miss Temple, I had not, at the same time, neglected precautions to secure my personal safety; which I thought would be {qword}effected{/qword}, if I could only elude observation.",
+        "aq": {
+          "auth": "Charlotte Brontë",
+          "source": "{it}Jane Eyre{/it}",
+          "aqdate": "1847"
+        }
+      },
+      {
+        "t": "As the whole progress of mathematics from its ancient simplicities to what we call its \"higher\" modern developments has been {qword}effected{/qword} by assuming impossibilities and inconceivabilities, your line of argument does not seem to me conclusive.",
+        "aq": {
+          "auth": "Bernard Shaw",
+          "aqdate": "circa 4 Nov. 1932",
+          "subsource": {
+            "source": "in {it}Collected Letters: 1926–1950{/it}",
+            "aqdate": "1988"
+          }
+        }
+      },
+      {
+        "t": "I had just written the Gossets that your address was Drujon Lane, so I would be obliged if you would drop them a card and tell them your release has been {qword}effected{/qword}.",
+        "aq": {
+          "auth": "Flannery O'Connor",
+          "source": "{it}The Habit of Being{/it}",
+          "aqdate": "1979"
+        }
+      },
+      {
+        "t": "When, at last, rescue is at hand, Jewitt has no hesitation in lying to his old friend and master, Maquinna, in order to {qword}effect{/qword} his escape, although he does persuade the captain of the brig Lydia not to kill the chief.",
+        "aq": {
+          "auth": "Carolyn Kizer",
+          "source": "{it}New York Times Book Review{/it}",
+          "aqdate": "21 Feb. 1988"
+        }
+      }
+    ],
+    "et": [
+      [
+        "text",
+        "in part verbal derivative of {et_link|effect:1|effect:1}, in part borrowed from Latin {it}effectus,{/it} past participle of {it}efficere{/it} \"to make, bring about\" {ma}{mat|effect:1|}{/ma}"
+      ]
+    ],
+    "date": "1533{ds||1||}",
+    "shortdef": [
+      "to succeed in doing or achieving (something) : to cause or bring about (something) : accomplish",
+      "to put into operation"
+    ]
+  },
+  {
+    "meta": {
+      "id": "Auger effect",
+      "uuid": "b45ce24d-2f4b-47c5-9987-feac8652ed80",
+      "sort": "015460000",
+      "src": "collegiate",
+      "section": "alpha",
+      "stems": [
+        "Auger effect",
+        "Auger effects",
+        "Auger process",
+        "Auger processes"
+      ],
+      "offensive": false
+    },
+    "hwi": {
+      "hw": "Au*ger effect",
+      "prs": [
+        {
+          "mw": "(ˌ)ō-ˈzhā-",
+          "sound": {
+            "audio": "auger_01",
+            "ref": "c",
+            "stat": "1"
+          }
+        }
+      ]
+    },
+    "fl": "noun",
+    "def": [
+      {
+        "sseq": [
+          [
+            [
+              "sense",
+              {
+                "dt": [
+                  [
+                    "text",
+                    "{bc}a process in which an atom that has been ionized through the emission of an electron with energy in the X-ray range undergoes a transition in which a second electron is emitted rather than an X-ray photon "
+                  ],
+                  [
+                    "ca",
+                    {
+                      "intro": "called also",
+                      "cats": [
+                        {
+                          "cat": "Auger process"
+                        }
+                      ]
+                    }
+                  ]
+                ]
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "et": [
+      [
+        "text",
+        "Pierre V. {it}Auger{/it} †1993 French physicist"
+      ]
+    ],
+    "date": "1928",
+    "shortdef": [
+      "a process in which an atom that has been ionized through the emission of an electron with energy in the X-ray range undergoes a transition in which a second electron is emitted rather than an X-ray photon —called also Auger process"
+    ]
+  },
+  {
+    "meta": {
+      "id": "bandwagon effect",
+      "uuid": "5ff2956a-175d-4b62-a6ba-720ad1676946",
+      "sort": "020567000",
+      "src": "collegiate",
+      "section": "alpha",
+      "stems": [
+        "bandwagon effect"
+      ],
+      "offensive": false
+    },
+    "hwi": {
+      "hw": "bandwagon effect"
+    },
+    "fl": "noun",
+    "def": [
+      {
+        "sseq": [
+          [
+            [
+              "sense",
+              {
+                "dt": [
+                  [
+                    "text",
+                    "{bc}the phenomenon by which the growing success of something (such as a cause, fad, or type of behavior) attracts more widespread support or adoption as more people perceive and are influenced by its increasing popularity "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "During recent presidential elections it has become vital for candidates to win early party primaries in several states to start a {wi}bandwagon effect{/wi}. Most people withhold support and contributions until they are sure the candidate has a good chance to win. Campaign \"momentum\" is highly prized because it creates a {wi}bandwagon effect{/wi} that brings even more supporters into the fold.",
+                        "aq": {
+                          "auth": "Hy Ruchlis et al."
+                        }
+                      },
+                      {
+                        "t": "Researchers have found two factors that may account for momentum's success. I call the first the {wi}bandwagon effect{/wi}. As a stock keeps outperforming the market, more and more investors \"discover\" it and jump on board—propelling it even further ahead of the market and seducing still more buyers.",
+                        "aq": {
+                          "auth": "Mark Hulbert"
+                        }
+                      }
+                    ]
+                  ]
+                ]
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "date": "1906",
+    "shortdef": [
+      "the phenomenon by which the growing success of something (such as a cause, fad, or type of behavior) attracts more widespread support or adoption as more people perceive and are influenced by its increasing popularity"
+    ]
+  },
+  {
+    "meta": {
+      "id": "Bohr effect",
+      "uuid": "fe3ebf77-13d9-4256-957c-92a2dfdd65ab",
+      "sort": "023566000",
+      "src": "collegiate",
+      "section": "alpha",
+      "stems": [
+        "Bohr effect",
+        "Bohr effects"
+      ],
+      "offensive": false
+    },
+    "hwi": {
+      "hw": "Bohr effect",
+      "prs": [
+        {
+          "mw": "ˈbȯr-",
+          "sound": {
+            "audio": "bohre01w",
+            "ref": "c",
+            "stat": "1"
+          }
+        }
+      ]
+    },
+    "fl": "noun",
+    "def": [
+      {
+        "sseq": [
+          [
+            [
+              "sense",
+              {
+                "dt": [
+                  [
+                    "text",
+                    "{bc}the decrease in the oxygen affinity of a respiratory pigment (such as hemoglobin) in response to decreased blood pH resulting from increased carbon dioxide concentration in the blood"
+                  ]
+                ]
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "et": [
+      [
+        "text",
+        "Christian {it}Bohr{/it} †1911 Danish physiologist"
+      ]
+    ],
+    "date": "1922",
+    "shortdef": [
+      "the decrease in the oxygen affinity of a respiratory pigment (such as hemoglobin) in response to decreased blood pH resulting from increased carbon dioxide concentration in the blood"
+    ]
+  },
+  {
+    "meta": {
+      "id": "butterfly effect",
+      "uuid": "a0d54d1c-f69e-4ddb-bfee-31ebcfe74818",
+      "sort": "025576000",
+      "src": "collegiate",
+      "section": "alpha",
+      "stems": [
+        "butterfly effect",
+        "butterfly effects"
+      ],
+      "offensive": false
+    },
+    "hwi": {
+      "hw": "butterfly effect"
+    },
+    "fl": "noun",
+    "def": [
+      {
+        "sseq": [
+          [
+            [
+              "sense",
+              {
+                "dt": [
+                  [
+                    "text",
+                    "{bc}a property of chaotic systems (such as the atmosphere) by which small changes in initial conditions can lead to large-scale and unpredictable variation in the future state of the system"
+                  ]
+                ]
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "date": "1976",
+    "shortdef": [
+      "a property of chaotic systems (such as the atmosphere) by which small changes in initial conditions can lead to large-scale and unpredictable variation in the future state of the system"
+    ]
+  },
+  {
+    "meta": {
+      "id": "cause and effect",
+      "uuid": "ef1c65ad-5d14-4429-a386-489179587acd",
+      "sort": "031616000",
+      "src": "collegiate",
+      "section": "alpha",
+      "stems": [
+        "cause and effect",
+        "causes and effects"
+      ],
+      "offensive": false
+    },
+    "hwi": {
+      "hw": "cause and effect"
+    },
+    "fl": "noun",
+    "ins": [
+      {
+        "il": "plural",
+        "if": "causes and effects"
+      }
+    ],
+    "def": [
+      {
+        "sseq": [
+          [
+            [
+              "sense",
+              {
+                "dt": [
+                  [
+                    "text",
+                    "{bc}the direct relationship between an action or event and its consequence or result "
+                  ],
+                  [
+                    "vis",
+                    [
+                      {
+                        "t": "Toys that make noise when interacted with … offer auditory stimulation and teach {wi}cause and effect{/wi}.",
+                        "aq": {
+                          "auth": "Maya Polton and Katrina Cossey"
+                        }
+                      },
+                      {
+                        "t": "\"Human nature is to look for {wi}cause and effect{/wi},\" says Robert Baloh, professor of neurology and head and neck surgery at UCLA's David Geffen School of Medicine. … \"I see this daily when I see patients. They're all sure something they ate or something they did caused their problem and their symptoms.\"",
+                        "aq": {
+                          "auth": "Frank Bures"
+                        }
+                      },
+                      {
+                        "t": "… focused on observable and verifiable {wi}causes and effects{/wi} in the natural world …",
+                        "aq": {
+                          "auth": "Rafi Eis"
+                        }
+                      }
+                    ]
+                  ]
+                ]
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "date": "1599",
+    "shortdef": [
+      "the direct relationship between an action or event and its consequence or result"
+    ]
+  },
+  {
+    "meta": {
+      "id": "Coriolis effect",
+      "uuid": "26d3a49e-b0fa-4dd5-86f7-cf784eee895e",
+      "sort": "042171000",
+      "src": "collegiate",
+      "section": "alpha",
+      "stems": [
+        "Coriolis effect",
+        "Coriolis effects"
+      ],
+      "offensive": false
+    },
+    "hwi": {
+      "hw": "Co*ri*o*lis effect",
+      "prs": [
+        {
+          "mw": "ˌkȯr-ē-ˈō-ləs-",
+          "sound": {
+            "audio": "coriol01",
+            "ref": "c",
+            "stat": "1"
+          }
+        }
+      ]
+    },
+    "fl": "noun",
+    "def": [
+      {
+        "sseq": [
+          [
+            [
+              "sense",
+              {
+                "dt": [
+                  [
+                    "text",
+                    "{bc}the apparent deflection of a moving object that is the result of the Coriolis force"
+                  ]
+                ]
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "date": "circa 1946",
+    "shortdef": [
+      "the apparent deflection of a moving object that is the result of the Coriolis force"
+    ]
+  },
+  {
+    "meta": {
+      "id": "domino effect",
+      "uuid": "6ebdfa19-67de-47e0-8e44-bf2c2643cf96",
+      "sort": "053560000",
+      "src": "collegiate",
+      "section": "alpha",
+      "stems": [
+        "domino effect",
+        "domino effects"
+      ],
+      "offensive": false
+    },
+    "hwi": {
+      "hw": "domino effect"
+    },
+    "fl": "noun",
+    "ins": [
+      {
+        "il": "plural",
+        "if": "domino effects"
+      }
+    ],
+    "def": [
+      {
+        "sseq": [
+          [
+            [
+              "sense",
+              {
+                "dt": [
+                  [
+                    "text",
+                    "{bc}a cumulative effect produced when one event initiates a succession of similar events {dx}compare {dxt|ripple effect|ripple effect|}{/dx}"
+                  ]
+                ]
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "date": "1924",
+    "shortdef": [
+      "a cumulative effect produced when one event initiates a succession of similar events"
+    ]
+  },
+  {
+    "meta": {
+      "id": "Doppler effect",
+      "uuid": "bd9fb989-4862-4520-9611-28782c35e5a2",
+      "sort": "053659000",
+      "src": "collegiate",
+      "section": "alpha",
+      "stems": [
+        "Doppler effect",
+        "Doppler effects"
+      ],
+      "offensive": false
+    },
+    "hwi": {
+      "hw": "Doppler effect"
+    },
+    "fl": "noun",
+    "def": [
+      {
+        "sseq": [
+          [
+            [
+              "sense",
+              {
+                "dt": [
+                  [
+                    "text",
+                    "{bc}a change in the frequency with which waves (as of sound or light) from a given source reach an observer when the source and the observer are in motion with respect to each other so that the frequency increases or decreases according to the speed at which the distance is decreasing or increasing"
+                  ]
+                ]
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "et": [
+      [
+        "text",
+        "Christian J. {it}Doppler{/it}"
+      ]
+    ],
+    "date": "1905",
+    "shortdef": [
+      "a change in the frequency with which waves (as of sound or light) from a given source reach an observer when the source and the observer are in motion with respect to each other so that the frequency increases or decreases according to the speed at which the distance is decreasing or increasing"
+    ]
+  }
+]

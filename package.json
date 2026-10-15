@@ -1,0 +1,17 @@
+{
+  "name": "soloeng",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "个人英语学习 App（本地 Web 应用，仅本人使用）",
+  "scripts": {
+    "spike": "node spike/run.js",
+    "verify:v1": "node verify/v1-acceptance.js",
+    "verify:v2": "node verify/v2-acceptance.js",
+    "verify": "npm run verify:v2 && npm run verify:v1",
+    "test": "node --test 'test/*.test.js'"
+  },
+  "dependencies": {
+    "cheerio": "^1.2.0"
+  }
+}

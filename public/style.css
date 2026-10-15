@@ -1,0 +1,600 @@
+/* 视觉规范（PRD §2.5）：单栏 760px、8 的倍数间距、系统字体、
+   灰阶为主 + 一个强调色、1px 细线、无阴影大圆角、无动画（仅流式光标闪烁） */
+
+:root {
+  --bg: #ffffff;
+  --fg: #1c1c1e;
+  --muted: #6b6b70;
+  --line: #e3e3e6;
+  --line-strong: #d0d0d5;
+  --accent: #1a6fd4;
+  --accent-soft: #eaf2fd;
+  --pill: #f2f2f4;
+  --pill-fg: #4a4a4f;
+  --warn: #b3261e;
+  --hover: #f7f7f8;
+
+  /* 查词栏（形态参考 Better Stack 社区搜索：淡色底 + 细边 + 左侧放大镜 + 右侧快捷键徽标）。
+     参考站点是深色文档站，这里把它翻译成跟随系统的一对色板：
+     深色档直接用参考站的取色，浅色档保持同一形态、把色阶提亮。 */
+  --search-bg: #f0f2f6;
+  --search-border: #d5dae2;
+  --search-icon: #717884;
+  --search-text: #1c1c1e;
+  --search-placeholder: #8b909a;
+  --search-btn-bg: #e4e7ec;
+  --search-btn-bg-hover: #d8dce3;
+  --search-btn-fg: #5b6270;
+
+  /* ToDesktop 风格按钮（todesktop.com 的 .button-dark）：
+     胶囊形 + 分层内高光 + 堆叠柔和投影，按下时内阴影反转，读起来像"被按进去"。
+     浅色档把打光方向翻过来（顶部高光用白、投影用暗）。 */
+  --btn-bg: rgba(9, 1, 20, 0.045);
+  --btn-bg-hover: rgba(9, 1, 20, 0.075);
+  --btn-bg-active: rgba(9, 1, 20, 0.03);
+  --btn-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 2px rgba(9, 1, 20, 0.05),
+    0 1px 1px -0.5px rgba(9, 1, 20, 0.05),
+    0 2px 2px -1px rgba(9, 1, 20, 0.04),
+    0 3px 3px -1.5px rgba(9, 1, 20, 0.035),
+    0 8px 8px -3px rgba(9, 1, 20, 0.04);
+  --btn-shadow-active:
+    inset 0 2px 4px rgba(9, 1, 20, 0.12),
+    inset 0 1px 2px rgba(9, 1, 20, 0.07),
+    0 1px 1px -0.5px rgba(9, 1, 20, 0.04);
+
+  /* 下拉面板：ToDesktop .shadow-products-dropdown-dark 的浅色翻版 */
+  /* 与触发按钮同色：把按钮的半透明底叠在页面底色上，得到同色的不透明面板，
+     这样浮在正文之上仍然清晰，颜色又与上面的按钮完全一致 */
+  --menu-bg: linear-gradient(var(--btn-bg), var(--btn-bg)), var(--bg);
+  --menu-shadow:
+    0 1px 1px -0.5px rgba(9, 1, 20, 0.05),
+    0 2px 2px -1px rgba(9, 1, 20, 0.04),
+    0 3px 3px -1.5px rgba(9, 1, 20, 0.035),
+    0 8px 8px -3px rgba(9, 1, 20, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --menu-hover: rgba(9, 1, 20, 0.06);
+  /* 面板内部的胶囊只保留内高光：外投影会溢出面板边缘，把面板糊掉 */
+  --menu-hl-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 2px rgba(9, 1, 20, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #17181a;
+    --fg: #e8e8ea;
+    --muted: #9a9aa0;
+    --line: #2c2d30;
+    --line-strong: #3a3b3f;
+    --accent: #6aa8f0;
+    --accent-soft: #1d2733;
+    --pill: #242528;
+    --pill-fg: #b9b9c0;
+    --warn: #f2857c;
+    --hover: #1f2023;
+
+    /* 与参考站同款：bg-[#4E576E]/[0.21] + border-[#2F3647] */
+    --search-bg: rgba(78, 87, 110, 0.21);
+    --search-border: #2f3647;
+    --search-icon: rgba(255, 255, 255, 0.55);
+    --search-text: #ffffff;
+    --search-placeholder: #a3a3a3;
+    --search-btn-bg: #525252;
+    --search-btn-bg-hover: #5e5e5e;
+    --search-btn-fg: #ffffff;
+
+    /* 直接用 ToDesktop 的数值：bg #ffffff0a / hover #ffffff1a / active #ffffff05 */
+    --btn-bg: rgba(255, 255, 255, 0.04);
+    --btn-bg-hover: rgba(255, 255, 255, 0.10);
+    --btn-bg-active: rgba(255, 255, 255, 0.02);
+    --btn-shadow:
+      inset 0 -4px 12px -4px rgba(255, 255, 255, 0.08),
+      inset 0 1px 3px rgba(255, 255, 255, 0.06),
+      inset 0 0.5px 0.5px rgba(255, 255, 255, 0.12),
+      0 1px 1px -0.5px rgba(9, 1, 20, 0.06),
+      0 2px 2px -1px rgba(9, 1, 20, 0.06),
+      0 3px 3px -1.5px rgba(9, 1, 20, 0.04),
+      0 8px 8px -3px rgba(9, 1, 20, 0.06);
+    --btn-shadow-active:
+      inset 0 4px 8px rgba(18, 7, 43, 0.16),
+      inset 0 3px 6px rgba(18, 7, 43, 0.06),
+      inset 0 0.5px 0.5px rgba(18, 7, 43, 0.12);
+
+    /* 对应 ToDesktop：linear-gradient(#ffffff0f,#ffffff0f), #0f071dc7 */
+    /* 与触发按钮同色（见浅色档说明） */
+    --menu-bg: linear-gradient(var(--btn-bg), var(--btn-bg)), var(--bg);
+    --menu-shadow:
+      0 1px 1px -0.5px rgba(9, 1, 20, 0.03),
+      0 2px 2px -1px rgba(9, 1, 20, 0.04),
+      0 3px 3px -1.5px rgba(9, 1, 20, 0.06),
+      0 8px 8px -3px rgba(9, 1, 20, 0.06),
+      inset 0 -4px 12px -4px rgba(255, 255, 255, 0.08),
+      inset 0 1px 3px rgba(255, 255, 255, 0.06),
+      inset 0 0.5px 0.5px rgba(255, 255, 255, 0.12);
+    --menu-hover: rgba(255, 255, 255, 0.06);
+    /* 面板内部的胶囊只保留内高光：外投影会溢出面板边缘，把面板糊掉 */
+    --menu-hl-shadow:
+      inset 0 -4px 12px -4px rgba(255, 255, 255, 0.08),
+      inset 0 1px 3px rgba(255, 255, 255, 0.06),
+      inset 0 0.5px 0.5px rgba(255, 255, 255, 0.12);
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #17181a;
+  --fg: #e8e8ea;
+  --muted: #9a9aa0;
+  --line: #2c2d30;
+  --line-strong: #3a3b3f;
+  --accent: #6aa8f0;
+  --accent-soft: #1d2733;
+  --pill: #242528;
+  --pill-fg: #b9b9c0;
+  --warn: #f2857c;
+  --hover: #1f2023;
+
+  /* 与参考站同款：bg-[#4E576E]/[0.21] + border-[#2F3647] */
+  --search-bg: rgba(78, 87, 110, 0.21);
+  --search-border: #2f3647;
+  --search-icon: rgba(255, 255, 255, 0.55);
+  --search-text: #ffffff;
+  --search-placeholder: #a3a3a3;
+  --search-btn-bg: #525252;
+  --search-btn-bg-hover: #5e5e5e;
+  --search-btn-fg: #ffffff;
+
+  /* 直接用 ToDesktop 的数值：bg #ffffff0a / hover #ffffff1a / active #ffffff05 */
+  --btn-bg: rgba(255, 255, 255, 0.04);
+  --btn-bg-hover: rgba(255, 255, 255, 0.10);
+  --btn-bg-active: rgba(255, 255, 255, 0.02);
+  --btn-shadow:
+    inset 0 -4px 12px -4px rgba(255, 255, 255, 0.08),
+    inset 0 1px 3px rgba(255, 255, 255, 0.06),
+    inset 0 0.5px 0.5px rgba(255, 255, 255, 0.12),
+    0 1px 1px -0.5px rgba(9, 1, 20, 0.06),
+    0 2px 2px -1px rgba(9, 1, 20, 0.06),
+    0 3px 3px -1.5px rgba(9, 1, 20, 0.04),
+    0 8px 8px -3px rgba(9, 1, 20, 0.06);
+  --btn-shadow-active:
+    inset 0 4px 8px rgba(18, 7, 43, 0.16),
+    inset 0 3px 6px rgba(18, 7, 43, 0.06),
+    inset 0 0.5px 0.5px rgba(18, 7, 43, 0.12);
+
+  /* 对应 ToDesktop：linear-gradient(#ffffff0f,#ffffff0f), #0f071dc7 */
+  /* 与触发按钮同色（见浅色档说明） */
+  --menu-bg: linear-gradient(var(--btn-bg), var(--btn-bg)), var(--bg);
+  --menu-shadow:
+    0 1px 1px -0.5px rgba(9, 1, 20, 0.03),
+    0 2px 2px -1px rgba(9, 1, 20, 0.04),
+    0 3px 3px -1.5px rgba(9, 1, 20, 0.06),
+    0 8px 8px -3px rgba(9, 1, 20, 0.06),
+    inset 0 -4px 12px -4px rgba(255, 255, 255, 0.08),
+    inset 0 1px 3px rgba(255, 255, 255, 0.06),
+    inset 0 0.5px 0.5px rgba(255, 255, 255, 0.12);
+  --menu-hover: rgba(255, 255, 255, 0.06);
+  /* 面板内部的胶囊只保留内高光：外投影会溢出面板边缘，把面板糊掉 */
+  --menu-hl-shadow:
+    inset 0 -4px 12px -4px rgba(255, 255, 255, 0.08),
+    inset 0 1px 3px rgba(255, 255, 255, 0.06),
+    inset 0 0.5px 0.5px rgba(255, 255, 255, 0.12);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: 760px; margin: 0 auto; padding: 0 16px 64px; }
+
+/* ---------- 状态条 ---------- */
+.statusbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 12px 16px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--muted);
+}
+.statusbar .stat b { color: var(--fg); font-weight: 600; }
+.statusbar .spacer { flex: 1; }
+.statusbar .dot, .dot { color: var(--line-strong); }
+
+/* ---------- 通用 ---------- */
+.page { padding-top: 24px; }
+.muted { color: var(--muted); font-size: 13px; }
+.row-between { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.spacer { flex: 1; }
+
+.link {
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  color: var(--accent);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.link:hover { text-decoration: underline; }
+
+.btn {
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.btn:hover { background: var(--hover); }
+.btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn-primary:hover { opacity: .92; }
+.btn:disabled { opacity: .5; cursor: default; }
+
+input[type="text"], input[type="number"], select {
+  font: inherit;
+  color: var(--fg);
+  background: var(--bg);
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  padding: 8px 10px;
+}
+input:focus, select:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+
+.checkbox { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); cursor: pointer; }
+
+/* ---------- 胶囊按钮（ToDesktop 风格）---------- */
+/* 无边框：立体感全部来自分层内高光 + 堆叠投影；:active 反转内阴影 */
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--btn-bg);
+  box-shadow: var(--btn-shadow);
+  color: var(--fg);
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.4;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color .2s cubic-bezier(.6, .6, 0, 1), box-shadow .2s cubic-bezier(.6, .6, 0, 1);
+}
+.btn-pill:hover { background: var(--btn-bg-hover); }
+.btn-pill:active { background: var(--btn-bg-active); box-shadow: var(--btn-shadow-active); }
+.btn-pill:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- 查词栏 ---------- */
+/* 形态取自 Better Stack 社区搜索：左侧放大镜、右侧功能按钮（有输入时出现「清空」）、
+   大方量的上下留白、8px 圆角、淡色底 + 1px 细边。参考站是深色文档站，
+   深色档沿用它的取色；浅色档保持同一形态，把色阶提亮。
+   参考站的「/」快捷键徽标已按需求移除——不留没有实际作用的假提示。 */
+
+.search { position: relative; display: flex; align-items: center; }
+
+.search input[type="text"] {
+  width: 100%;
+  font-size: 17px;
+  line-height: 1.4;
+  padding: 16px 84px 16px 48px;   /* 左留放大镜、右留「清空」，避免文字压到它们下面 */
+  border-radius: 8px;
+  background: var(--search-bg);
+  border: 1px solid var(--search-border);
+  color: var(--search-text);
+}
+.search input[type="text"]::placeholder { color: var(--search-placeholder); }
+.search input[type="text"]:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.search-icon {
+  position: absolute;
+  left: 17px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--search-icon);
+  pointer-events: none;
+}
+
+.search-clear {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 30px;
+  padding: 0 9px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--search-btn-bg);
+  color: var(--search-btn-fg);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+/* display:inline-flex 会盖掉 [hidden]，必须显式复位 */
+.search-clear[hidden] { display: none; }
+.search-clear:hover { background: var(--search-btn-bg-hover); }
+
+.search-tools {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 12px;
+  min-height: 24px;
+}
+.length-mode { margin-left: auto; }
+
+/* ---------- 自绘下拉（ToDesktop 风格）---------- */
+/* 面板：rounded-16 / p-6 / backdrop-blur-16 + .shadow-products-dropdown-dark
+   选项：rounded-12 / px-12 py-10
+   选择动效：一枚与按钮同源立体阴影的胶囊，在选项之间滑动
+   过渡统一用 ToDesktop 的 cubic-bezier(.6,.6,0,1)；滑动胶囊取 .transition-all 的 .45s */
+.dropdown { position: relative; display: inline-flex; }
+
+.dropdown-trigger { padding-right: 12px; }
+.dropdown-chevron {
+  margin-left: 2px;
+  opacity: .5;
+  transition: transform .45s cubic-bezier(.6, .6, 0, 1), opacity .45s cubic-bezier(.6, .6, 0, 1);
+}
+.dropdown.is-open .dropdown-trigger { background: var(--btn-bg-hover); }
+.dropdown.is-open .dropdown-chevron { transform: rotate(180deg); opacity: 1; }
+
+.dropdown-panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 30;
+  min-width: 100%;
+  padding: 6px;
+  border-radius: 16px;
+  background: var(--menu-bg);
+  box-shadow: var(--menu-shadow);
+  transform-origin: top right;
+  opacity: 0;
+  transform: translateY(-4px) scale(.98);
+  transition: opacity .45s cubic-bezier(.6, .6, 0, 1), transform .45s cubic-bezier(.6, .6, 0, 1);
+}
+.dropdown-panel[hidden] { display: none; }
+.dropdown-panel.is-open { opacity: 1; transform: translateY(0) scale(1); }
+
+.dropdown-list {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  outline: none;
+}
+.dropdown-list [role="option"] {
+  position: relative;
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.4;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.dropdown-list [role="option"][aria-selected="true"] { font-weight: 600; }
+
+/* 滑动胶囊：立体阴影与按钮同源；位置与高度由 JS 量取 */
+.dropdown-highlight {
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  top: 0;
+  height: 0;
+  border-radius: 12px;
+  background: var(--menu-hover);
+  box-shadow: var(--menu-hl-shadow);
+  pointer-events: none;
+  transition: transform .45s cubic-bezier(.6, .6, 0, 1), height .45s cubic-bezier(.6, .6, 0, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dropdown-panel, .dropdown-highlight, .dropdown-chevron { transition: none; }
+}
+.hint-error { color: var(--warn); font-size: 13px; }
+
+/* 示例：用小胶囊而不是「·」串起来——那是随处可见的模板味 */
+.syntax {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.syntax-label { margin-right: 2px; }
+.chip {
+  font: inherit;
+  font-size: 13px;
+  padding: 3px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+}
+.chip:hover { background: var(--hover); border-color: var(--line-strong); }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.recent { margin-top: 12px; font-size: 13px; color: var(--muted); }
+.recent-word { margin: 0 2px; }
+
+/* ---------- 结果区 ---------- */
+.result { margin-top: 24px; }
+.head-word { font-size: 24px; font-weight: 600; letter-spacing: -0.01em; }
+.head-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 4px; color: var(--muted); font-size: 13px; }
+.ipa-label { color: var(--line-strong); margin-right: 4px; }
+.head-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.head-actions { display: flex; gap: 12px; align-items: center; margin-top: 8px; }
+
+.pill {
+  display: inline-block;
+  background: var(--pill);
+  color: var(--pill-fg);
+  border-radius: 999px;
+  padding: 1px 8px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.pill-pos { background: var(--accent-soft); color: var(--accent); }
+.pill-cefr { background: var(--pill); }
+.pill-ox { background: var(--pill); }
+.pill-opal { background: var(--pill); }
+
+.audio {
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0 8px;
+  font-size: 12px;
+  line-height: 1.7;
+  cursor: pointer;
+  color: var(--fg);
+}
+.audio:hover { background: var(--hover); }
+
+.body {
+  margin-top: 16px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+.body h2 { font-size: 15px; font-weight: 600; margin: 24px 0 8px; }
+.body h2:first-child { margin-top: 0; }
+.body h3 { font-size: 14px; font-weight: 600; color: var(--muted); margin: 16px 0 6px; }
+.body p { margin: 8px 0; }
+.body blockquote {
+  margin: 8px 0 8px 0;
+  padding-left: 12px;
+  border-left: 2px solid var(--line);
+  color: var(--muted);
+}
+.body ul, .body ol { margin: 8px 0; padding-left: 22px; }
+.body li { margin: 2px 0; }
+.body hr { border: 0; border-top: 1px solid var(--line); margin: 16px 0; }
+.body table { border-collapse: collapse; margin: 8px 0; width: 100%; font-size: 13px; }
+.body th, .body td { border: 1px solid var(--line); padding: 4px 8px; text-align: left; }
+.body th { background: var(--pill); font-weight: 600; }
+.body code { background: var(--pill); padding: 1px 4px; border-radius: 4px; font-size: 13px; }
+.wikilink { color: var(--accent); cursor: pointer; }
+
+.notice {
+  border: 1px solid var(--line);
+  background: var(--pill);
+  color: var(--muted);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 13px;
+  margin-top: 8px;
+}
+.notice-error { border-color: var(--warn); color: var(--warn); background: transparent; }
+
+.footer-line {
+  margin-top: 24px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* 流式光标：唯一允许的动效 */
+.cursor {
+  display: inline-block;
+  width: 7px;
+  height: 15px;
+  vertical-align: -2px;
+  background: var(--accent);
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
+
+.thinking { color: var(--muted); font-size: 13px; }
+
+/* ---------- 复习页 ---------- */
+.review-body { margin-top: 16px; }
+.review-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+}
+.review-card .front-word { font-size: 24px; font-weight: 600; }
+.review-card .front-pos { color: var(--muted); font-size: 13px; margin-top: 4px; }
+.review-card.back { text-align: left; cursor: default; }
+.review-actions { display: flex; gap: 8px; justify-content: center; margin-top: 16px; }
+.review-actions .btn { min-width: 88px; }
+details { margin: 8px 0; }
+summary { cursor: pointer; color: var(--muted); font-size: 13px; }
+
+/* ---------- 设置弹层 ---------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 20;
+}
+.modal[hidden] { display: none; }
+.modal-panel {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 86vh;
+  overflow: auto;
+  padding: 20px;
+}
+.modal-panel h2 { font-size: 15px; margin: 0; }
+.field { display: block; margin-top: 16px; font-size: 13px; }
+.field > span:first-child { display: block; color: var(--muted); margin-bottom: 4px; }
+.field-row { display: flex; gap: 8px; }
+.field-row input, .field input[type="text"] { flex: 1; width: 100%; }
+.field.half { flex: 1; margin-top: 0; }
+.field input[type="number"] { width: 100%; }

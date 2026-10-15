@@ -1,0 +1,63 @@
+[
+  {
+    "url": "https://www.oxfordlearnersdictionaries.com/definition/english/effect_1",
+    "pos": "noun",
+    "headword": "effect",
+    "ipa": {
+      "uk": "/ɪˈfekt/",
+      "us": "/ɪˈfekt/"
+    },
+    "audio": {
+      "uk": "https://www.oxfordlearnersdictionaries.com/media/english/uk_pron/e/eff/effec/effect__gb_2.mp3",
+      "us": "https://www.oxfordlearnersdictionaries.com/media/english/us_pron/e/eff/effec/effect__us_1.mp3"
+    },
+    "tags": {
+      "cefr": null,
+      "oxford3000": true,
+      "oxford5000": false,
+      "oxfordLevel": "a2",
+      "opal": [
+        "OPAL W OPAL_Written::Sublist_1",
+        "OPAL S OPAL_Spoken::Sublist_1"
+      ]
+    },
+    "senses": 4,
+    "collocationCategories": 5,
+    "hasWordOrigin": true,
+    "hasWordFamily": true,
+    "hasSynonymsBlock": true,
+    "usageNotes": [
+      "Which Word? affect / effect"
+    ],
+    "idioms": 9
+  },
+  {
+    "url": "https://www.oxfordlearnersdictionaries.com/definition/english/effect_2",
+    "pos": "verb",
+    "headword": "effect",
+    "ipa": {
+      "uk": "/ɪˈfekt/",
+      "us": "/ɪˈfekt/"
+    },
+    "audio": {
+      "uk": "https://www.oxfordlearnersdictionaries.com/media/english/uk_pron/e/eff/effec/effect__gb_2.mp3",
+      "us": "https://www.oxfordlearnersdictionaries.com/media/english/us_pron/e/eff/effec/effect__us_1.mp3"
+    },
+    "tags": {
+      "cefr": null,
+      "oxford3000": false,
+      "oxford5000": false,
+      "oxfordLevel": null,
+      "opal": []
+    },
+    "senses": 1,
+    "collocationCategories": 0,
+    "hasWordOrigin": true,
+    "hasWordFamily": true,
+    "hasSynonymsBlock": false,
+    "usageNotes": [
+      "Which Word? affect / effect"
+    ],
+    "idioms": 0
+  }
+]
