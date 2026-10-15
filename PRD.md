@@ -489,7 +489,7 @@ srs:
 - **资源预算**：常驻内存约 60–70 MB（实测：Node 启动 63 MB，索引 5000 词后 66 MB）。
 
 ```
-/Users/rain/Desktop/个人英语学习app/     ← 项目根目录（私有仓库，可随时推 GitHub）
+~/Desktop/个人英语学习app/     ← 项目根目录（私有仓库，可随时推 GitHub）
 ├── server.js               本地服务（node:http）
 ├── start.command           双击启动
 ├── public/                 前端页面
@@ -503,7 +503,7 @@ srs:
 ├── data/                   config.json、logs/、backup/
 └── README.md
 
-/Users/rain/.english-vocab/secrets.env   ← 密钥（600，与代码物理隔离，绝不进 git）
+~/.english-vocab/secrets.env   ← 密钥（600，与代码物理隔离，绝不进 git）
 ```
 
 ---
