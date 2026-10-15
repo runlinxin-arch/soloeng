@@ -8,10 +8,18 @@ import { normalize } from '../lib/normalize.js';
 const read = (p) => readFile(p, 'utf8');
 const readJson = async (p) => JSON.parse(await read(p));
 
-// 抓取到的官方页面原文出于版权原因不随仓库分发（见 README「测试数据」）。
-// 缺少 fixture 时显式 skip 并说明如何补齐，而不是抛一个看不懂的 ENOENT。
-const FIXTURE_HINT = '缺少 fixtures/html（未随仓库分发）：先运行 npm run spike 重新抓取（需联网）';
-const test = (name, fn) => nodeTest(name, { skip: existsSync('fixtures/html/oald.html') ? false : FIXTURE_HINT }, fn);
+// 抓取到的官方词典原文出于版权原因不随仓库分发（见 README「测试数据」）。
+// 缺少 fixture 时显式 skip 并指出缺的是哪个，而不是抛一个看不懂的 ENOENT。
+const REQUIRED_FIXTURES = [
+  'fixtures/html/oald.html',
+  'fixtures/mw-collegiate-raw.json',
+  'fixtures/mw-thesaurus-raw.json'
+];
+const MISSING_FIXTURES = REQUIRED_FIXTURES.filter((f) => !existsSync(f));
+const FIXTURE_HINT = MISSING_FIXTURES.length
+  ? ('缺少 ' + MISSING_FIXTURES.join('、') + '（未随仓库分发）：先运行 npm run spike 重新抓取（需联网）')
+  : false;
+const test = (name, fn) => nodeTest(name, { skip: FIXTURE_HINT }, fn);
 
 
 const F = {

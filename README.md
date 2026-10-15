@@ -127,16 +127,19 @@ npm run spike           # 重新抓取官方页面并刷新 fixtures
 
 ## 测试数据（fixtures）
 
-`fixtures/html/` 是从牛津 / 剑桥官网抓取的**页面原文**，受版权保护，**不随本仓库分发**（已在 `.gitignore` 中排除）。
+以下两项是抓取到的**官方原文**，受版权保护，**不随本仓库分发**（已在 `.gitignore` 中排除）：
 
-所以刚克隆下来的仓库里，解析相关的测试会显示为 **skipped**（跳过原因会写明）。补齐一次即可：
+- `fixtures/html/` —— 牛津 / 剑桥的页面原文
+- `fixtures/mw-*-raw.json` —— Merriam-Webster API 的原始返回
+
+所以刚克隆下来的仓库里，解析相关的测试会显示为 **skipped**（跳过原因会写明缺哪个文件）。补齐一次即可：
 
 ```bash
-npm run spike     # 重新抓取官方页面并写入 fixtures/（需要联网）
+npm run spike     # 重新抓取官方页面与 MW 原始返回（需要联网 + MW key）
 npm test          # 之后即可全量通过
 ```
 
-`fixtures/` 下的 JSON 是解析结果，体积小，仍然随仓库提供。
+其余 `fixtures/*.json` 是体积极小的解析结果摘要，仍然随仓库提供。
 
 ---
 

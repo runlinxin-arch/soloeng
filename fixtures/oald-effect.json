@@ -17,8 +17,8 @@
       "oxford5000": false,
       "oxfordLevel": "a2",
       "opal": [
-        "OPAL W OPAL_Written::Sublist_1",
-        "OPAL S OPAL_Spoken::Sublist_1"
+        "OPAL W (Sublist 1)",
+        "OPAL S (Sublist 1)"
       ]
     },
     "senses": 4,

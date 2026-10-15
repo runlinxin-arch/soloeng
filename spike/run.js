@@ -120,6 +120,7 @@ if (secrets.status.mwCollegiate) {
 
 if (secrets.status.mwThesaurus) {
   const rMWT = await fetchJson('https://www.dictionaryapi.com/api/v3/references/thesaurus/json/' + w + '?key=' + secrets.values.MW_THESAURUS_KEY);
+  await saveJson('mw-thesaurus-raw', rMWT.json);
   const mwt = parseMWThesaurus(rMWT.json);
   mwOut.thesaurus = { synonyms: mwt.synonyms.slice(0, 8), antonyms: mwt.antonyms.slice(0, 5), examples: mwt.examples.length, synCount: mwt.synonyms.length };
   console.log('  Thesaurus: 同义=', mwt.synonyms.length, '| 反义=', mwt.antonyms.length, '| 例句=', mwt.examples.length);
