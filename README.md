@@ -127,10 +127,12 @@ npm run spike           # 重新抓取官方页面并刷新 fixtures
 
 ## 测试数据（fixtures）
 
-以下两项是抓取到的**官方原文**，受版权保护，**不随本仓库分发**（已在 `.gitignore` 中排除）：
+以下文件含抓取到的**官方原文**，受版权保护，**不随本仓库分发**（已在 `.gitignore` 中排除）：
 
 - `fixtures/html/` —— 牛津 / 剑桥的页面原文
 - `fixtures/mw-*-raw.json` —— Merriam-Webster API 的原始返回
+- `fixtures/mw-effect.json` —— 含 MW 词源与释义原文（仅 spike 产出，无代码读取）
+- `fixtures/cam-affect.json` —— 含剑桥释义片段（仅 spike 产出，无代码读取）
 
 所以刚克隆下来的仓库里，解析相关的测试会显示为 **skipped**（跳过原因会写明缺哪个文件）。补齐一次即可：
 

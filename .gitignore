@@ -8,3 +8,7 @@ data/
 # 需要时运行 npm run spike 在本机重新抓取（见 README「测试数据」）。
 fixtures/html/
 fixtures/mw-*-raw.json
+# 下面两个含逐字官方原文：mw 的词源+释义、剑桥的释义片段。
+# 它们只是 spike 的产出，没有任何代码读取。
+fixtures/mw-effect.json
+fixtures/cam-affect.json
