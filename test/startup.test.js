@@ -11,7 +11,20 @@ import { join } from 'node:path';
  * 背景：项目路径含中文，import.meta.url 会被百分号编码，
  * 曾经导致 server.js 的「是否为主模块」判断失败 → 进程静默退出、什么都不做。
  * 这里真的把服务拉起来并请求一次，确保它不会再次静默失败。
+ *
+ * 注意：必须用**干净环境**启动。否则开发者 shell 里的代理变量会触发
+ * proxy-bootstrap 的自我重启，多出一个孙进程；kill 掉父进程后孙进程仍持有
+ * stdout/stderr 管道，会让测试跑完也退不出去。
  */
+
+const PROXY_VARS = ['http_proxy', 'https_proxy', 'all_proxy',
+                    'HTTP_PROXY', 'HTTPS_PROXY', 'ALL_PROXY', 'NODE_USE_ENV_PROXY'];
+
+function cleanEnv(extra) {
+  const env = Object.assign({}, process.env, extra || {});
+  for (const k of PROXY_VARS) delete env[k];
+  return env;
+}
 
 function freePort() {
   return new Promise((resolve, reject) => {
@@ -46,7 +59,7 @@ test('node server.js 真的能启动并响应（防静默退出回归）', async
   const port = await freePort();
   const child = spawn(process.execPath, ['server.js'], {
     cwd: process.cwd(),
-    env: Object.assign({}, process.env, { PORT: String(port), SOLOENG_CONFIG: configPath }),
+    env: cleanEnv({ PORT: String(port), SOLOENG_CONFIG: configPath }),
     stdio: ['ignore', 'pipe', 'pipe']
   });
 
@@ -83,7 +96,7 @@ test('未知配置路径也能启动（回退到默认配置）', async () => {
   const port = await freePort();
   const child = spawn(process.execPath, ['server.js'], {
     cwd: process.cwd(),
-    env: Object.assign({}, process.env, { PORT: String(port), SOLOENG_CONFIG: '/nonexistent/dir/config.json' }),
+    env: cleanEnv({ PORT: String(port), SOLOENG_CONFIG: '/nonexistent/dir/config.json' }),
     stdio: ['ignore', 'pipe', 'pipe']
   });
   try {

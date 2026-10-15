@@ -8,6 +8,7 @@ import { loadConfig, saveConfig, checkVault, ensureVault, resolveVaultName, reso
 import { getSecrets } from './lib/secrets.js';
 import { applyNetworkMode, proxyEnvPresent, throttle } from './lib/fetcher.js';
 import { createService } from './lib/service.js';
+import { ensureDirectNetwork } from './lib/proxy-bootstrap.js';
 import { buildIndex, countDueToday, recentWords } from './lib/store.js';
 import { todayISO } from './lib/dates.js';
 import { info, warn, error, redact, getCounters } from './lib/log.js';
@@ -278,9 +279,14 @@ function watchForCodeChanges() {
 }
 
 if (isMain) {
+  // 必须最先做：Node 在启动期就固定了 env proxy，运行时删变量已无效。
+  // 带着（可能已失效的）代理变量启动时，这里会用干净环境重启自身再继续。
+  const configPath = process.env.SOLOENG_CONFIG || CONFIG_PATH;
+  await ensureDirectNetwork(configPath);
+
   watchForCodeChanges();
   // 允许用环境变量指向别的配置文件（测试/多库场景）
-  const app = await createApp(process.env.SOLOENG_CONFIG ? { configPath: process.env.SOLOENG_CONFIG } : undefined);
+  const app = await createApp({ configPath });
   const cfg = app.config;
   const port = Number(process.env.PORT || cfg.port || 4317);
   await app.listen(port, cfg.host);

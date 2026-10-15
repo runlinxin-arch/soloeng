@@ -1,10 +1,15 @@
 import { mkdir, writeFile } from 'node:fs/promises';
+import path from 'node:path';
 import { applyNetworkMode, proxyEnvPresent, fetchText, fetchJson } from '../lib/fetcher.js';
+import { ensureDirectNetwork } from '../lib/proxy-bootstrap.js';
 import {
   parseOald, parseCambridge, parseOaldSuggestions, parseMWCollegiate,
   parseMWThesaurus, discoverEntryUrls, clean
 } from '../lib/parser.js';
 import { getSecrets } from '../lib/secrets.js';
+
+// 与 server.js 同一道自愈：必须在任何 fetch 之前
+await ensureDirectNetwork(path.join(import.meta.dirname, '..', 'data', 'config.json'));
 
 const t0 = Date.now();
 console.log('=== 网络模式（PRD 风险：代理可能指向死端口）===');
