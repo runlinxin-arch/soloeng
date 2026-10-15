@@ -2,7 +2,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import net from 'node:net';
-import { mkdtemp, writeFile, rm } from 'node:fs/promises';
+import { writeFile, rm } from 'node:fs/promises';
+import { tempDir } from './helpers/tmp.js';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
@@ -51,8 +52,8 @@ async function waitFor(url, timeoutMs) {
 }
 
 test('node server.js 真的能启动并响应（防静默退出回归）', async () => {
-  const dir = await mkdtemp(join(tmpdir(), 'eng-startup-'));
-  const vault = await mkdtemp(join(tmpdir(), 'eng-startup-vault-'));
+  const dir = await tempDir('eng-startup-');
+  const vault = await tempDir('eng-startup-vault-');
   const configPath = join(dir, 'config.json');
   await writeFile(configPath, JSON.stringify({ vaultPath: vault, host: '127.0.0.1', port: 0, model: 'deepseek-flash' }), 'utf8');
 

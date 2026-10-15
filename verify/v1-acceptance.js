@@ -4,7 +4,9 @@
  * 说明：除第 1 项按要求写入真实 Obsidian 库外，其余在独立临时库中执行，
  *       避免污染真实单词库。
  */
-import { mkdtemp, readFile, rm, writeFile, readdir } from 'node:fs/promises';
+import { readFile, rm, writeFile, readdir } from 'node:fs/promises';
+// 复用测试的临时目录助手：进程退出时自动清理，避免每跑一次验收就漏一堆目录
+import { tempDir } from '../test/helpers/tmp.js';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { loadConfig, resolveVaultName } from '../lib/config.js';
@@ -33,7 +35,7 @@ function record(no, name, pass, detail) {
 }
 
 const ROOT = path.resolve(import.meta.dirname, '..');
-const tempVault = await mkdtemp(path.join(tmpdir(), 'eng-v11-'));
+const tempVault = await tempDir('eng-v11-');
 const secrets = (await getSecrets()).values;
 const realCfg = (await loadConfig()).config;
 
@@ -108,7 +110,7 @@ console.log('');
 
 /* ---------- 4 断网保护：绝不写半张卡 ---------- */
 {
-  const netVault = await mkdtemp(path.join(tmpdir(), 'eng-offline-'));
+  const netVault = await tempDir('eng-offline-');
   const svc = createService({
     config: { vaultPath: netVault, backupKeep: 20 },
     store,
@@ -147,8 +149,8 @@ console.log('');
 
 /* ---------- 6 不覆盖手写内容 + 覆盖前备份 ---------- */
 {
-  const vault = await mkdtemp(path.join(tmpdir(), 'eng-hand-'));
-  const backupDir = await mkdtemp(path.join(tmpdir(), 'eng-bak-'));
+  const vault = await tempDir('eng-hand-');
+  const backupDir = await tempDir('eng-bak-');
   const svc = createService({
     config: { vaultPath: vault, backupKeep: 20, model: realCfg.model },
     store, lookup: async (w) => ({ word: w, found: true, suggestions: [], normalized: {
@@ -239,7 +241,7 @@ function bodyKep_safe(v) { return v; }
 
 /* ---------- 9 持久化恢复（等价演练，不删代码） ---------- */
 {
-  const vault = await mkdtemp(path.join(tmpdir(), 'eng-recover-'));
+  const vault = await tempDir('eng-recover-');
   const svc = mkService(vault);
   await svc.query({ q: 'effect' }, { onEvent: () => {}, apiKey: null, secrets: {} });
   await svc.query({ q: 'affect' }, { onEvent: () => {}, apiKey: null, secrets: {} });
@@ -247,7 +249,7 @@ function bodyKep_safe(v) { return v; }
   const dueBefore = before.map((c) => JSON.stringify(c.data.srs));
   // 模拟「删掉 app 与 data/，重新拉起后指向同一个库」：
   // 用一个全新配置路径（不存在）重新构造服务，只指向同一个库目录
-  const freshConfigPath = path.join(await mkdtemp(path.join(tmpdir(), 'eng-fresh-')), 'config.json');
+  const freshConfigPath = path.join(await tempDir('eng-fresh-'), 'config.json');
   const freshLoaded = await loadConfig(freshConfigPath);
   const fresh = createService({ config: Object.assign({}, freshLoaded.config, { vaultPath: vault }), store });
   const st = await fresh.state ? null : null;

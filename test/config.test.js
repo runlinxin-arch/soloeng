@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, writeFile, readFile } from 'node:fs/promises';
+import { mkdir, writeFile, readFile } from 'node:fs/promises';
+import { tempDir } from './helpers/tmp.js';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import {
@@ -8,7 +9,7 @@ import {
   checkVault, ensureVault, resolveVaultName, resolveVaultInfo, obsidianUrlFor
 } from '../lib/config.js';
 
-const tmp = () => mkdtemp(join(tmpdir(), 'engcfg-'));
+const tmp = () => tempDir('engcfg-');
 
 test('withDefaults 补全缺字段且不覆盖已有值', () => {
   const c = withDefaults({ model: 'deepseek-v4-pro' });

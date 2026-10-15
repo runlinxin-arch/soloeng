@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { writeFile, mkdtemp, chmod } from 'node:fs/promises';
+import { writeFile, chmod } from 'node:fs/promises';
+import { tempDir } from './helpers/tmp.js';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { parseEnv, loadSecrets, keyStatus } from '../lib/secrets.js';
@@ -29,7 +30,7 @@ test('parseEnv 处理引号/注释/空行/等号值', () => {
 });
 
 test('loadSecrets 合并两个文件且 app secrets 优先', async () => {
-  const dir = await mkdtemp(join(tmpdir(), 'engsec-'));
+  const dir = await tempDir('engsec-');
   const appSecrets = join(dir, 'secrets.env');
   const fallback = join(dir, '.secrets');
   await writeFile(fallback, 'export DEEPSEEK_API_KEY=from-fallback\nexport ONLY_FALLBACK=1\n');

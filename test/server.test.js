@@ -1,6 +1,6 @@
 import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp } from 'node:fs/promises';
+import { tempDir } from './helpers/tmp.js';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createApp } from '../server.js';
@@ -24,8 +24,8 @@ function norm(word) {
 }
 
 before(async () => {
-  vault = await mkdtemp(join(tmpdir(), 'engsrv-vault-'));
-  configPath = join(await mkdtemp(join(tmpdir(), 'engsrv-cfg-')), 'config.json');
+  vault = await tempDir('engsrv-vault-');
+  configPath = join(await tempDir('engsrv-cfg-'), 'config.json');
   const service = createService({
     config: { vaultPath: vault, backupKeep: 5, model: 'deepseek-flash' },
     store,

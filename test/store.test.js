@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, readFile, readdir, writeFile, rm } from 'node:fs/promises';
+import { mkdir, readFile, readdir, writeFile, rm } from 'node:fs/promises';
+import { tempDir } from './helpers/tmp.js';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import {
@@ -10,7 +11,7 @@ import {
 } from '../lib/store.js';
 import { parseFrontmatter } from '../lib/markdown.js';
 
-const tmp = () => mkdtemp(join(tmpdir(), 'engstore-'));
+const tmp = () => tempDir('engstore-');
 
 const NORMALIZED = {
   word: 'effect',

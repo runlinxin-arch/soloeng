@@ -2,7 +2,8 @@ import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import http from 'node:http';
-import { mkdtemp, writeFile } from 'node:fs/promises';
+import { writeFile } from 'node:fs/promises';
+import { tempDir } from './helpers/tmp.js';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { inheritedProxyVars, isReexecChild, readNetworkMode } from '../lib/proxy-bootstrap.js';
@@ -63,7 +64,7 @@ test('反证：跳过自愈时确实会失败（证明这组测试有区分度�
 });
 
 test('networkMode=env 时不重启（尊重「我要走代理」的选择）', async () => {
-  const dir = await mkdtemp(join(tmpdir(), 'engproxy-'));
+  const dir = await tempDir('engproxy-');
   const cfg = join(dir, 'config.json');
   await writeFile(cfg, JSON.stringify({ networkMode: 'env' }), 'utf8');
   const { out, err } = await runProbe({}, cfg);

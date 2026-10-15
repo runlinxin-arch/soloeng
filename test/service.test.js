@@ -1,13 +1,14 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, readdir } from 'node:fs/promises';
+import { mkdir, readdir } from 'node:fs/promises';
+import { tempDir } from './helpers/tmp.js';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createService } from '../lib/service.js';
 import * as store from '../lib/store.js';
 import { readCard } from '../lib/store.js';
 
-const tmp = () => mkdtemp(join(tmpdir(), 'engsvc-'));
+const tmp = () => tempDir('engsvc-');
 
 function norm(word, extra) {
   return Object.assign({
@@ -202,7 +203,7 @@ test('词根模式：卡片不存在时生成完整卡片', async () => {
  * 按钮**永远**不出现。组件单测过不了这一关，必须测「线上真的喂了它」。
  */
 test('单查：head 事件必须带上可用的 obsidian:// 链接', async () => {
-  const root = await mkdtemp(join(tmpdir(), 'eng-vaultroot-'));
+  const root = await tempDir('eng-vaultroot-');
   const vaultRoot = join(root, 'myvault');
   await mkdir(join(vaultRoot, '.obsidian'), { recursive: true });
   const cardDir = join(vaultRoot, 'soloeng词库');
@@ -241,7 +242,7 @@ test('没有 .obsidian 时不产生死链（宁可不显示按钮）', async () 
 });
 
 test('「这次不保存」不给 Obsidian 链接（文件根本不会存在）', async () => {
-  const root = await mkdtemp(join(tmpdir(), 'eng-vaultroot2-'));
+  const root = await tempDir('eng-vaultroot2-');
   const vaultRoot = join(root, 'myvault');
   await mkdir(join(vaultRoot, '.obsidian'), { recursive: true });
   const cardDir = join(vaultRoot, 'soloeng词库');

@@ -2,7 +2,9 @@
  * v2 验收（PRD §7.2 四项）。纯本地，不依赖网络。
  * 用法：node verify/v2-acceptance.js
  */
-import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import { readFile, rm } from 'node:fs/promises';
+// 复用测试的临时目录助手：进程退出时自动清理
+import { tempDir } from '../test/helpers/tmp.js';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { createService } from '../lib/service.js';
@@ -17,7 +19,7 @@ function record(no, name, pass, detail) {
   console.log('[' + (pass ? 'PASS' : 'FAIL') + '] §7.2-' + no + ' ' + name + (detail ? '\n         ' + detail : ''));
 }
 
-const vault = await mkdtemp(path.join(tmpdir(), 'eng-v2-'));
+const vault = await tempDir('eng-v2-');
 const TODAY = todayISO();
 const svc = createService({ config: { vaultPath: vault, dailyNewLimit: 10, dailyReviewLimit: 3, backupKeep: 20 }, store });
 
@@ -84,7 +86,7 @@ console.log('');
 
 /* ---------- 12 软上限与超额 ---------- */
 {
-  const vault2 = await mkdtemp(path.join(tmpdir(), 'eng-v2limit-'));
+  const vault2 = await tempDir('eng-v2limit-');
   const svc2 = createService({ config: { vaultPath: vault2, dailyNewLimit: 1, dailyReviewLimit: 2 }, store });
   for (let i = 0; i < 3; i++) {
     const w = mkWord('new' + i, 'noun', { due: TODAY, reps: 0 });
