@@ -1,26 +1,11 @@
-import { test as nodeTest } from 'node:test';
-import { existsSync } from 'node:fs';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { FIXTURE, ALL_HTML, MW_RAW, testWith as test } from './helpers/fixtures.js';
 import { lookup } from '../lib/dictionary.js';
 import { normalize } from '../lib/normalize.js';
 
 const read = (p) => readFile(p, 'utf8');
 const readJson = async (p) => JSON.parse(await read(p));
-
-// 抓取到的官方词典原文出于版权原因不随仓库分发（见 README「测试数据」）。
-// 缺少 fixture 时显式 skip 并指出缺的是哪个，而不是抛一个看不懂的 ENOENT。
-const REQUIRED_FIXTURES = [
-  'fixtures/html/oald.html',
-  'fixtures/mw-collegiate-raw.json',
-  'fixtures/mw-thesaurus-raw.json'
-];
-const MISSING_FIXTURES = REQUIRED_FIXTURES.filter((f) => !existsSync(f));
-const FIXTURE_HINT = MISSING_FIXTURES.length
-  ? ('缺少 ' + MISSING_FIXTURES.join('、') + '（未随仓库分发）：先运行 npm run spike 重新抓取（需联网）')
-  : false;
-const test = (name, fn) => nodeTest(name, { skip: FIXTURE_HINT }, fn);
-
 
 const F = {
   oald1: 'fixtures/html/oald.html',
@@ -60,7 +45,7 @@ async function makeFake(opts) {
   return { fetchText, fetchJson, calls };
 }
 
-test('lookup(effect)：走通全管道且字段来自官方', async () => {
+test(ALL_HTML, 'lookup(effect)：走通全管道且字段来自官方', async () => {
   const f = await makeFake();
   const r = await lookup('effect', { fetchText: f.fetchText, fetchJson: f.fetchJson, secrets: {}, minIntervalMs: 0 });
   assert.equal(r.found, true);
@@ -80,7 +65,7 @@ test('lookup(effect)：走通全管道且字段来自官方', async () => {
   assert.ok(n.missing.includes('compareNotes') === false, 'effect 有 Which Word 说明，不应缺辨析');
 });
 
-test('lookup：MW 开启时同义/反义进 relations', async () => {
+test(ALL_HTML.concat(MW_RAW), 'lookup：MW 开启时同义/反义进 relations', async () => {
   const f = await makeFake();
   const secrets = { MW_COLLEGIATE_KEY: 'k', MW_THESAURUS_KEY: 't' };
   const r = await lookup('effect', { fetchText: f.fetchText, fetchJson: f.fetchJson, secrets, minIntervalMs: 0 });
@@ -90,7 +75,7 @@ test('lookup：MW 开启时同义/反义进 relations', async () => {
   assert.ok(!r.normalized.missing.includes('relations'));
 });
 
-test('lookup：OALD 无词条 → 剑桥回退成功（PRD §7.1-2）', async () => {
+test(ALL_HTML, 'lookup：OALD 无词条 → 剑桥回退成功（PRD §7.1-2）', async () => {
   const f = await makeFake({ oaldMissing: true });
   const r = await lookup('affect', { fetchText: f.fetchText, fetchJson: f.fetchJson, secrets: {}, minIntervalMs: 0 });
   assert.equal(r.sources.oald, 'missing');
@@ -102,14 +87,14 @@ test('lookup：OALD 无词条 → 剑桥回退成功（PRD §7.1-2）', async ()
   assert.equal(r.normalized.ipa.source, 'cambridge');
 });
 
-test('lookup：OALD 无词条且剑桥也失败 → 给拼写建议，不报错', async () => {
+test(ALL_HTML, 'lookup：OALD 无词条且剑桥也失败 → 给拼写建议，不报错', async () => {
   const f = await makeFake({ oaldMissing: true, cambridgeMissing: true });
   const r = await lookup('adverrse', { fetchText: f.fetchText, fetchJson: f.fetchJson, secrets: {}, minIntervalMs: 0 });
   assert.equal(r.found, false);
   assert.ok(r.suggestions.includes('adverse'), '应给出官方拼写建议，实际 ' + JSON.stringify(r.suggestions));
 });
 
-test('lookup：任一来源抛错都不允许整次失败（PRD 附录 A）', async () => {
+test(ALL_HTML, 'lookup：任一来源抛错都不允许整次失败（PRD 附录 A）', async () => {
   const f = await makeFake({ oaldThrows: true, cambridgeThrows: true });
   const r = await lookup('effect', { fetchText: f.fetchText, fetchJson: f.fetchJson, secrets: {}, minIntervalMs: 0 });
   assert.equal(r.found, false);
@@ -117,7 +102,7 @@ test('lookup：任一来源抛错都不允许整次失败（PRD 附录 A）', as
   assert.equal(r.sources.cambridge, 'error');
 });
 
-test('lookup：剑桥超时但 OALD 正常 → 照常返回（PRD 附录 A）', async () => {
+test(ALL_HTML, 'lookup：剑桥超时但 OALD 正常 → 照常返回（PRD 附录 A）', async () => {
   const f = await makeFake();
   // 剑桥本来就不该被调用：OALD 有义项
   const r = await lookup('effect', { fetchText: f.fetchText, fetchJson: f.fetchJson, secrets: {}, minIntervalMs: 0 });
@@ -125,7 +110,7 @@ test('lookup：剑桥超时但 OALD 正常 → 照常返回（PRD 附录 A）', 
   assert.equal(r.sources.cambridge, 'skipped', 'OALD 完整时不应多打剑桥一次');
 });
 
-test('normalize：全空时 missing 列出所有缺失块，且 found=false', () => {
+test([], 'normalize：全空时 missing 列出所有缺失块，且 found=false', () => {
   const n = normalize({ word: 'x' });
   assert.equal(n.found, false);
   for (const k of ['pronunciation', 'senses', 'collocations', 'wordOrigin', 'relations', 'compareNotes']) {
@@ -135,7 +120,7 @@ test('normalize：全空时 missing 列出所有缺失块，且 found=false', ()
   assert.deepEqual(n.collocations.categories, []);
 });
 
-test('normalize：官方没有的块必须为空，不得编造（铁律）', () => {
+test([], 'normalize：官方没有的块必须为空，不得编造（铁律）', () => {
   const n = normalize({
     word: 'x',
     oaldEntries: [{ pos: 'noun', ipa: { uk: '/x/' }, senses: [{ pos: 'noun', def: 'd', examples: [] }], tags: {}, collocations: { categories: [] }, audio: {} }]

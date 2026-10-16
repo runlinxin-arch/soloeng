@@ -132,15 +132,22 @@ npm run spike           # 重新抓取官方页面并刷新 fixtures
 - **Node ≥ 20.11**（代码用到 `import.meta.dirname`）。开发机与 CI 都用 Node 24。
 - CI（`.github/workflows/test.yml`）在每次 push / PR 上跑 `npm test` 与 `npm run verify:v2`，**不需要任何密钥**。
 
-CI 拿到的是全新克隆，而官方原文 fixture 不随仓库分发，所以这条任务里
-**解析相关的 23 个测试会显示为 skipped**，其余 **166 个照常执行**。
+CI 拿到的是全新克隆，而官方原文 fixture 不随仓库分发，所以这条任务的实际覆盖是：
 
-需要完整覆盖时，在 Actions 里手动触发 **full** 任务：它先 `npm run spike` 重新抓取，再跑全量测试。
+| 场景 | 结果 |
+|---|---|
+| CI 每次 push（无 fixture） | **177 通过 / 0 失败 / 19 跳过** |
+| 手动 full 任务（抓到牛津剑桥，无 MW 密钥） | **193 通过 / 0 失败 / 3 跳过** |
+| 本机 fixture 齐全（或配好 MW secret） | **196 通过 / 0 失败** |
 
-- 抓取只访问牛津 / 剑桥，**不需要密钥**；但 MW 的 fixture 仍会缺失
-- 因此若未配置 secret，这 23 个测试**依然会全部跳过** —— 测试守卫目前是**按文件**判断
-  fixture 是否存在，缺任意一个就跳过整个文件。要真正解锁，需配置
-  `MW_COLLEGIATE_KEY` 与 `MW_THESAURUS_KEY` 两个 secret，之后 **189 个测试全部执行**
+需要更完整覆盖时，在 Actions 里手动触发 **full** 任务：它先 `npm run spike` 重新抓取，再跑全量测试。
+抓取只访问牛津 / 剑桥、**不需要密钥**，所以 MW 之外的解析测试都能在 CI 里跑起来；
+只有 3 个真正依赖 MW 原始返回的用例会跳过。配置 `MW_COLLEGIATE_KEY` 与
+`MW_THESAURUS_KEY` 两个 secret 后即 **196/196**。
+
+> 测试守卫是**按用例**声明 fixture 依赖的（`test/helpers/fixtures.js`），
+> 不是按文件 —— 否则缺 MW fixture 会把同一文件里 10 个纯 HTML 的解析测试一起跳过，
+> 抓了半天一个都用不上。`test/fixture-guard.test.js` 锁住了这一点。
 
 > 抓取类任务一律设为手动触发，不在别人站点上跑定时任务。
 
