@@ -19,9 +19,10 @@ jobs:
     name: 离线测试 + v2 验收
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # v5 是这两个动作里第一个 using: node24 的大版本（v4 是 node20，已被弃用告警）
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           # 与本地开发一致。引擎版本要求见 README「运行环境」
           node-version: '24'
@@ -42,9 +43,10 @@ jobs:
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # v5 是这两个动作里第一个 using: node24 的大版本（v4 是 node20，已被弃用告警）
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: '24'
           cache: npm
