@@ -9,7 +9,7 @@
     "verify:v1": "node verify/v1-acceptance.js",
     "verify:v2": "node verify/v2-acceptance.js",
     "verify": "npm run verify:v2 && npm run verify:v1",
-    "test": "node --test 'test/*.test.js'"
+    "test": "node test/run.js"
   },
   "dependencies": {
     "cheerio": "^1.2.0"
