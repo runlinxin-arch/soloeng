@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 import { load } from 'cheerio';
 import {
   renderMarkdown, renderHead, renderStatusBar, renderRecent,
-  createSseParser, escapeHtml, splitSections, renderReviewBack, REVIEW_FOLDED
+  createSseParser, escapeHtml, splitSections, renderReviewBack, REVIEW_FOLDED, groupByPos
 } from '../public/render.js';
 
 test('escapeHtml 挡住 XSS', () => {
@@ -164,6 +164,95 @@ test('renderReviewBack：折叠内容仍在 DOM 中（可展开，不是被丢�
 
 test('REVIEW_FOLDED 覆盖三个词级区块', () => {
   assert.deepEqual(REVIEW_FOLDED, ['延伸义与词族', '易混词辨析', '词源与构词']);
+});
+
+/* ---------- PRD §2.3：背面只展示当前词性的内容 ---------- */
+
+// 贴近真实卡片的形状：词性是**行内**标注的（**n.** / **v.**），
+// 「### 熟词僻义」是这些小节的标题。
+const CARD_MD = [
+  '## 核心释义',
+  '**n.** 影响、结果。',
+  '',
+  '> What are the long-term effects?',
+  '',
+  '**v.** 促成、实现。',
+  '',
+  '> effect a transition',
+  '',
+  '### 熟词僻义',
+  '',
+  '**n.（复数）** 个人财物。',
+  '',
+  '## 固定搭配',
+  '- decisive effect',
+  '',
+  '## 易混词辨析',
+  'vs [[affect]]'
+].join('\n');
+
+/** 取「常显区」文本（先把折叠块移出 DOM 再查询） */
+function visibleText(html) {
+  const $ = load(html);
+  $('details').remove();
+  return $('body').text();
+}
+
+test('复习名词时不展示动词的释义（PRD §2.3）', () => {
+  const html = renderReviewBack(CARD_MD, { pos: 'noun', otherPos: ['verb'] });
+  const main = visibleText(html);
+  assert.ok(main.includes('影响、结果'), '名词释义应常显');
+  assert.ok(main.includes('个人财物'), '「熟词僻义」也是名词内容，应常显');
+  assert.ok(!main.includes('促成'), '动词释义不该出现在名词复习的常显区');
+});
+
+test('复习动词时不展示名词的释义，且不留空标题', () => {
+  const html = renderReviewBack(CARD_MD, { pos: 'verb', otherPos: ['noun'] });
+  const main = visibleText(html);
+  assert.ok(main.includes('促成'), '动词释义应常显');
+  assert.ok(!main.includes('影响、结果'), '名词释义不该出现');
+  assert.ok(!main.includes('个人财物'), '「熟词僻义」整块属于名词，应移走');
+  const $ = load(html);
+  $('details').remove();
+  assert.equal($('h3').length, 0, '「### 熟词僻义」的内容移走后，标题不能留在正文里');
+});
+
+test('其他词性折叠成一行，且内容可展开（不是被丢掉）', () => {
+  const html = renderReviewBack(CARD_MD, { pos: 'noun', otherPos: ['verb'] });
+  const $ = load(html);
+  const box = $('details.other-pos');
+  assert.equal(box.length, 1, '应有一个专门装其他词性的折叠块');
+  assert.match(box.find('summary').text(), /该词还有其他词性：v\./);
+  assert.match(box.find('summary').text(), /不影响本次评分/);
+  assert.ok(box.text().includes('促成'), '折叠不等于删除：动词内容仍要留在 DOM 里');
+});
+
+test('没有词性标记的区块不受词性切分影响', () => {
+  for (const pos of ['noun', 'verb']) {
+    const main = visibleText(renderReviewBack(CARD_MD, { pos, otherPos: [pos === 'noun' ? 'verb' : 'noun'] }));
+    assert.ok(main.includes('固定搭配'), pos + '：固定搭配应常显');
+    assert.ok(main.includes('decisive effect'), pos + '：搭配内容应常显');
+  }
+});
+
+test('不传 pos 时保持旧行为（按区块折叠 + 一行提示）', () => {
+  const html = renderReviewBack(CARD_MD, { otherPos: ['verb'] });
+  assert.equal(load(html)('details.other-pos').length, 0, '没有 pos 就不该做词性切分');
+  assert.ok(html.includes('class="notice"'), '仍应给出其他词性提示');
+  assert.ok(html.includes('verb'), '提示里用原始词性名');
+});
+
+test('groupByPos：标题跟随其后的内容，不自成一块', () => {
+  const groups = groupByPos('**n.** A\n\n### 熟词僻义\n\n**n.（复数）** B');
+  assert.deepEqual(groups.map((g) => g.label), ['n.', 'n.']);
+  assert.ok(groups[1].text.startsWith('### 熟词僻义'), '标题应并进后面那块');
+  assert.ok(groups[1].text.includes('B'));
+});
+
+test('groupByPos：没有标记的续写段落跟随上一块', () => {
+  const groups = groupByPos('**n.** A\n\n续写一句\n\n**v.** B');
+  assert.deepEqual(groups.map((g) => g.label), ['n.', 'v.']);
+  assert.ok(groups[0].text.includes('续写一句'), '无标记段落应跟随上一个词性');
 });
 
 test('index.html 具备页面必需的结构（hash 路由两页 + 设置弹层）', async () => {

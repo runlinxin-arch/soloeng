@@ -124,29 +124,112 @@ export function splitSections(md) {
 /** 复习背面默认折叠的词级内容（PRD §2.3：辨析/词源/词族一律折叠） */
 export const REVIEW_FOLDED = ['延伸义与词族', '易混词辨析', '词源与构词'];
 
+/** 词性全名 → 正文里的行内标记（LLM 用缩写标注词性） */
+export const POS_LABEL = {
+  noun: 'n.', verb: 'v.', adjective: 'adj.', adverb: 'adv.',
+  preposition: 'prep.', conjunction: 'conj.', pronoun: 'pron.',
+  determiner: 'det.', interjection: 'interj.', numeral: 'num.'
+};
+
 /**
- * 复习背面渲染：释义/例句/搭配常显，词级内容折叠。
- * 注意：正文由 LLM 生成，并非严格按词性分段，因此这里按「区块」折叠；
- * 其他词性另外给一行折叠入口。
+ * 把一个区块的正文按**行内的词性标记**切块。
+ *
+ * 正文由 LLM 生成，词性不是标题而是行内标注（`**n.** …` / `**v.** …`），
+ * 所以这里按空行切段，再看每段开头有没有词性标记：
+ *   - 有标记 → 开新块
+ *   - 标题行（# 开头）→ 自成一块（否则会被并进上一个词性的块里）
+ *   - 其它段落 → 跟随上一块（LLM 常把同一词性的续写单独成段）
+ */
+export function groupByPos(text) {
+  const groups = [];
+  let pending = [];   // 攒着的标题行：它属于紧随其后的那块内容，不能自成一块
+
+  const flushTo = (group) => {
+    if (!pending.length) return;
+    group.text = pending.join('\n\n') + '\n\n' + group.text;
+    pending = [];
+  };
+
+  for (const raw of String(text == null ? '' : text).split(/\n\s*\n/)) {
+    const t = raw.trim();
+    if (!t) continue;
+    const m = t.match(/^\*\*\s*([A-Za-z]+)\.\s*(?:（[^）]*）)?\s*\*\*/);
+    const label = m ? m[1].toLowerCase() + '.' : null;
+
+    if (label) {
+      const g = { label, text: t };
+      flushTo(g);
+      groups.push(g);
+    } else if (/^#{1,6}\s/.test(t)) {
+      // 例如「### 熟词僻义」—— 它的内容是后面那些块，所以先攒着。
+      // 早先把它当独立块，结果复习动词时正文里会留下一个**空标题**。
+      pending.push(t);
+    } else if (groups.length) {
+      flushTo(groups[groups.length - 1]);
+      groups[groups.length - 1].text += '\n\n' + t;
+    } else {
+      groups.push({ label: null, text: t });
+    }
+  }
+  if (pending.length) groups.push({ label: null, text: pending.join('\n\n') });
+  return groups;
+}
+
+/**
+ * 复习背面渲染（PRD §2.3）：
+ *   - 只展示**当前词性**的释义；其他词性的内容折叠成一行「该词还有其他词性：v.」，点开可看
+ *   - 词级内容（辨析 / 词源 / 词族）一律折叠
+ *
+ * 传了 opts.pos 才做词性切分；没传就退回「按区块折叠 + 一行提示」的旧行为，
+ * 这样调用方可以渐进接入，已有测试与用法也不会被打断。
  */
 export function renderReviewBack(md, opts) {
   const o = opts || {};
   const folded = o.folded || REVIEW_FOLDED;
+  const wantLabel = o.pos ? (POS_LABEL[o.pos] || null) : null;
   const sections = splitSections(md);
   const out = [];
+  const otherChunks = [];
+  const otherLabels = [];
+
   for (const s of sections) {
     if (!s.heading) {
       if (s.body) out.push(renderMarkdown(s.body));
       continue;
     }
-    const html = renderMarkdown(s.body);
-    if (folded.indexOf(s.heading) >= 0) {
-      out.push('<details><summary>' + escapeHtml(s.heading) + '</summary>' + html + '</details>');
-    } else {
-      out.push('<h2>' + escapeHtml(s.heading) + '</h2>' + html);
+    let body = s.body;
+    let skipped = false;
+    if (wantLabel) {
+      const groups = groupByPos(body);
+      if (groups.some((g) => g.label)) {
+        const mine = groups.filter((g) => !g.label || g.label === wantLabel);
+        const other = groups.filter((g) => g.label && g.label !== wantLabel);
+        for (const g of other) if (otherLabels.indexOf(g.label) < 0) otherLabels.push(g.label);
+        body = mine.map((g) => g.text).join('\n\n');
+        if (other.length) {
+          otherChunks.push('<h3>' + escapeHtml(s.heading) + '</h3>' + renderMarkdown(other.map((g) => g.text).join('\n\n')));
+        }
+        // 整个区块都属于别的词性（例如复习动词时的「熟词僻义」）→ 不在这里渲染
+        if (!body.trim()) skipped = true;
+      }
+    }
+    if (!skipped) {
+      const html = renderMarkdown(body);
+      if (folded.indexOf(s.heading) >= 0) {
+        out.push('<details><summary>' + escapeHtml(s.heading) + '</summary>' + html + '</details>');
+      } else {
+        out.push('<h2>' + escapeHtml(s.heading) + '</h2>' + html);
+      }
     }
   }
-  if (o.otherPos && o.otherPos.length) {
+
+  if (wantLabel && otherChunks.length) {
+    const names = (o.otherPos && o.otherPos.length)
+      ? o.otherPos.map((p) => POS_LABEL[p] || p)
+      : otherLabels;
+    out.push('<details class="other-pos"><summary>该词还有其他词性：' + escapeHtml(names.join('、')) +
+      '（不影响本次评分）</summary>' + otherChunks.join('') + '</details>');
+  } else if (o.otherPos && o.otherPos.length) {
     out.push('<div class="notice">该词还有其他词性：' + escapeHtml(o.otherPos.join('、')) + '（不影响本次评分）</div>');
   }
   return out.join('\n');

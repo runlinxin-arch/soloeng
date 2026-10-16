@@ -530,7 +530,7 @@ function renderReviewItem() {
     el.reviewActions.innerHTML = '';
   } else {
     el.reviewBody.innerHTML = '<div class="review-card back">' + front + '<hr>' +
-      renderReviewBack(item.__body || '', { otherPos: item.otherPos }) + '</div>';
+      renderReviewBack(item.__body || '', { pos: item.pos, otherPos: item.otherPos }) + '</div>';
     el.reviewActions.innerHTML =
       '<button class="btn" data-grade="1">忘了 1</button>' +
       '<button class="btn" data-grade="2">模糊 2</button>' +
