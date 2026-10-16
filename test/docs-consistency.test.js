@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 
 /**
  * 文档与实现的一致性守卫。
@@ -106,6 +106,24 @@ test('视觉规范必须与 CSS 实现一致（胶囊控件 + 阴影）', async 
     assert.ok(!/不用卡片阴影与大圆角。/.test(text),
       f + ' 仍写着「不用卡片阴影与大圆角」，与现行的胶囊 + 分层阴影实现直接对立');
   }
+});
+
+test('README 里写的测试总数必须与实际一致（这个数字漂移过两次）', async () => {
+  // 顶层 test( 声明数恰好等于 node --test 报告的总数（本仓库实测一致，无循环生成的用例）
+  let declared = 0;
+  for (const f of readdirSync('test')) {
+    if (!f.endsWith('.test.js')) continue;
+    declared += (readFileSync('test/' + f, 'utf8').match(/^test\(/gm) || []).length;
+  }
+  assert.ok(declared > 100, '测试数看起来不对：' + declared);
+
+  // 只认「单元测试」那一行。别用宽松的 **N / N 通过**：v1 验收那行也是这个格式（9 / 9），
+  // 会撞上来 —— 我第一版就是这么写的，守卫张口就说「README 写着 9 个测试」。
+  const md = await docText('README.md');
+  const row = md.match(/\|\s*单元测试\s*\|\s*\*\*(\d+) \/ \1 通过\*\*/);
+  assert.ok(row, 'README 的验收结果表里应有一行：单元测试 | **N / N 通过**');
+  assert.equal(Number(row[1]), declared,
+    'README 写着 ' + row[1] + ' 个测试，实际声明了 ' + declared + ' 个 —— 加了测试就要同步这个数字');
 });
 
 test('文档里提到的 UI 控件名应该真的存在于代码里', async () => {
