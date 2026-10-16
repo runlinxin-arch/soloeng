@@ -8,6 +8,7 @@
   },
   "description": "个人英语学习 App（本地 Web 应用，仅本人使用）",
   "scripts": {
+    "start": "node server.js",
     "spike": "node spike/run.js",
     "verify:v1": "node verify/v1-acceptance.js",
     "verify:v2": "node verify/v2-acceptance.js",
