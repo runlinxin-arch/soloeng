@@ -14,6 +14,18 @@ import { spawn } from 'node:child_process';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { nodeVersionProblem } from './helpers/engines.js';
+
+// 先查版本：在 Node 22 上跑，失败的是两条代理测试（报错与版本毫无关系）；
+// 在 Node 20 上连 node --test 的 glob 都不支持。与其让人对着莫名其妙的失败发呆，
+// 不如在这里直接说清楚。
+const problem = nodeVersionProblem();
+if (problem) {
+  console.error('✗ ' + problem);
+  console.error('  Node 24 之前不支持 NODE_USE_ENV_PROXY，代理自愈与相关测试的行为都会不符预期；');
+  console.error('  Node 20 的 node --test 还不支持 glob 参数，测试命令本身就跑不起来。');
+  process.exit(1);
+}
 
 const dir = mkdtempSync(join(tmpdir(), 'soloeng-testdata-'));
 const env = Object.assign({}, process.env, { SOLOENG_DATA_DIR: dir });
