@@ -136,6 +136,7 @@ npm run spike           # 重新抓取官方页面并刷新 fixtures
 | `engines` | `package.json` / CI / README 三处的 Node 要求各自漂移 |
 | `unused-imports` | 未使用的 import 再次堆积（一次清掉 32 处，半数是重构残渣） |
 | `fetch-concurrency` | 抓取退回跨站串行，§7.1-1 会重新卡在 10s 预算线上 |
+| `docs-consistency` | 文档描述已删除的 UI、引用不存在的产出物、与 CSS 实现对立 |
 
 ---
 
@@ -146,21 +147,21 @@ npm run spike           # 重新抓取官方页面并刷新 fixtures
   - **Node 20.11**：`node --test` 不支持 glob 参数，测试命令本身就跑不起来
   - **Node 22.11**：能跑，但会挂 2 条代理测试 —— `NODE_USE_ENV_PROXY` 是 Node 24 才有的，
     代理由此失效，而代理自愈正是本项目刻意实现并测试的东西
-  - **Node 24**：211 个测试全过
+  - **Node 24**：217 个测试全过
 - CI（`.github/workflows/test.yml`）在每次 push / PR 上跑 `npm test` 与 `npm run verify:v2`，**不需要任何密钥**。
 
 CI 拿到的是全新克隆，而官方原文 fixture 不随仓库分发，所以这条任务的实际覆盖是：
 
 | 场景 | 结果 |
 |---|---|
-| CI 每次 push（无 fixture） | **192 通过 / 0 失败 / 19 跳过** |
-| 手动 full 任务（抓到牛津剑桥，无 MW 密钥） | **208 通过 / 0 失败 / 3 跳过** |
-| 本机 fixture 齐全（或配好 MW secret） | **211 通过 / 0 失败** |
+| CI 每次 push（无 fixture） | **198 通过 / 0 失败 / 19 跳过** |
+| 手动 full 任务（抓到牛津剑桥，无 MW 密钥） | **214 通过 / 0 失败 / 3 跳过** |
+| 本机 fixture 齐全（或配好 MW secret） | **217 通过 / 0 失败** |
 
 需要更完整覆盖时，在 Actions 里手动触发 **full** 任务：它先 `npm run spike` 重新抓取，再跑全量测试。
 抓取只访问牛津 / 剑桥、**不需要密钥**，所以 MW 之外的解析测试都能在 CI 里跑起来；
 只有 3 个真正依赖 MW 原始返回的用例会跳过。配置 `MW_COLLEGIATE_KEY` 与
-`MW_THESAURUS_KEY` 两个 secret 后即 **211/211**。
+`MW_THESAURUS_KEY` 两个 secret 后即 **217/217**。
 
 > 测试守卫是**按用例**声明 fixture 依赖的（`test/helpers/fixtures.js`），
 > 不是按文件 —— 否则缺 MW fixture 会把同一文件里 10 个纯 HTML 的解析测试一起跳过，
