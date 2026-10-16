@@ -1,11 +1,11 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+;
 import {
   parseSse, extractDelta, renderPrompt, streamChat, generateCard,
   toPromptData, loadPrompt, LENGTH_GUIDE, buildThinkingParams, THINKING_MODES
 } from '../lib/llm.js';
-import { PROMPTS_DIR } from '../lib/paths.js';
+;
 
 async function collect(gen) {
   const out = [];

@@ -11,7 +11,7 @@ import { createService } from './lib/service.js';
 import { ensureDirectNetwork } from './lib/proxy-bootstrap.js';
 import { buildIndex, countDueToday, recentWords } from './lib/store.js';
 import { todayISO } from './lib/dates.js';
-import { info, warn, error, redact, getCounters } from './lib/log.js';
+import { info, error, redact } from './lib/log.js';
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',

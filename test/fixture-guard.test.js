@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { FIXTURE, ALL_HTML, MW_RAW, skipReason } from './helpers/fixtures.js';
+import { ALL_HTML, MW_RAW, skipReason } from './helpers/fixtures.js';
 
 /**
  * fixture 守卫的粒度守卫。

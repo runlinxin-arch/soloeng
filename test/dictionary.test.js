@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { FIXTURE, ALL_HTML, MW_RAW, testWith as test } from './helpers/fixtures.js';
+import { ALL_HTML, MW_RAW, testWith as test } from './helpers/fixtures.js';
 import { lookup } from '../lib/dictionary.js';
 import { normalize } from '../lib/normalize.js';
 

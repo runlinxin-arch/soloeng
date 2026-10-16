@@ -4,7 +4,7 @@ import { spawn } from 'node:child_process';
 import http from 'node:http';
 import { writeFile } from 'node:fs/promises';
 import { tempDir } from './helpers/tmp.js';
-import { tmpdir } from 'node:os';
+;
 import { join } from 'node:path';
 import { PROXY_VARS, inheritedProxyVars, isReexecChild, readNetworkMode } from '../lib/proxy-bootstrap.js';
 

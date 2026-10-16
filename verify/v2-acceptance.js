@@ -5,12 +5,12 @@
 import { readFile, rm } from 'node:fs/promises';
 // 复用测试的临时目录助手：进程退出时自动清理
 import { tempDir } from '../test/helpers/tmp.js';
-import { tmpdir } from 'node:os';
+;
 import path from 'node:path';
 import { createService } from '../lib/service.js';
 import * as store from '../lib/store.js';
-import { readCard, writeCard, buildCardData } from '../lib/store.js';
-import { buildQueue } from '../lib/srs.js';
+import { readCard, writeCard } from '../lib/store.js';
+;
 import { todayISO, addDays } from '../lib/dates.js';
 
 const results = [];

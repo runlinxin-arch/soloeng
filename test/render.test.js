@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { load } from 'cheerio';
 import {
-  renderInline, renderMarkdown, renderHead, renderStatusBar, renderRecent,
+  renderMarkdown, renderHead, renderStatusBar, renderRecent,
   createSseParser, escapeHtml, splitSections, renderReviewBack, REVIEW_FOLDED
 } from '../public/render.js';
 

@@ -1,8 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdir, writeFile, readFile } from 'node:fs/promises';
+import { mkdir, writeFile } from 'node:fs/promises';
 import { tempDir } from './helpers/tmp.js';
-import { tmpdir } from 'node:os';
+;
 import { join } from 'node:path';
 import {
   DEFAULT_CONFIG, withDefaults, loadConfig, saveConfig,

@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdir, readdir } from 'node:fs/promises';
 import { tempDir } from './helpers/tmp.js';
-import { tmpdir } from 'node:os';
+;
 import { join } from 'node:path';
 import { createService } from '../lib/service.js';
 import * as store from '../lib/store.js';

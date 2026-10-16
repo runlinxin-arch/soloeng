@@ -5,7 +5,7 @@ import net from 'node:net';
 import { writeFile, rm } from 'node:fs/promises';
 import { tempDir } from './helpers/tmp.js';
 import { PROXY_VARS } from '../lib/proxy-bootstrap.js';
-import { tmpdir } from 'node:os';
+;
 import { join } from 'node:path';
 
 /**

@@ -1,8 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { writeFile, chmod } from 'node:fs/promises';
+import { writeFile } from 'node:fs/promises';
 import { tempDir } from './helpers/tmp.js';
-import { tmpdir } from 'node:os';
+;
 import { join } from 'node:path';
 import { parseEnv, loadSecrets, keyStatus } from '../lib/secrets.js';
 

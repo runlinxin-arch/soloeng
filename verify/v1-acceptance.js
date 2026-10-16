@@ -7,20 +7,20 @@
 import { readFile, rm, writeFile, readdir } from 'node:fs/promises';
 // 复用测试的临时目录助手：进程退出时自动清理，避免每跑一次验收就漏一堆目录
 import { tempDir } from '../test/helpers/tmp.js';
-import { tmpdir } from 'node:os';
+;
 import path from 'node:path';
-import { loadConfig, resolveVaultName } from '../lib/config.js';
+import { loadConfig } from '../lib/config.js';
 import { applyNetworkMode } from '../lib/fetcher.js';
 import { ensureDirectNetwork } from '../lib/proxy-bootstrap.js';
 import { createService } from '../lib/service.js';
 import * as store from '../lib/store.js';
-import { readCard, listCards, countDueToday, writeCard, buildIndex } from '../lib/store.js';
+import { readCard, listCards, buildIndex } from '../lib/store.js';
 import { getSecrets } from '../lib/secrets.js';
 import { parseInput } from '../lib/parse-input.js';
 import { lookup } from '../lib/dictionary.js';
 import { isOaldNotFound } from '../lib/parser.js';
 import { fetchText } from '../lib/fetcher.js';
-import { todayISO } from '../lib/dates.js';
+;
 
 // 与 server.js 同一道自愈：带着失效代理启动时用干净环境重启自身。
 // 必须在任何 fetch 之前执行——启动期固定的代理 dispatcher 之后再删变量已无效。

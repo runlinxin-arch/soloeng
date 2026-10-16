@@ -1,15 +1,15 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdir, readFile, readdir, writeFile, rm } from 'node:fs/promises';
+import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import { tempDir } from './helpers/tmp.js';
-import { tmpdir } from 'node:os';
+;
 import { join } from 'node:path';
 import {
   buildCardData, buildCardBody, officialFallbackBody, writeCard, readCard,
-  listCards, buildIndex, recentWords, countDueToday, backupCard, pruneBackups,
+  listCards, buildIndex, recentWords, countDueToday, backupCard,
   appendRootsSection, createSkeletonCard, cardPath, sanitizeWord, splitRaw, ROOTS_HEADING
 } from '../lib/store.js';
-import { parseFrontmatter } from '../lib/markdown.js';
+;
 
 const tmp = () => tempDir('engstore-');
 
