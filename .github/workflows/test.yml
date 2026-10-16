@@ -1,0 +1,75 @@
+name: 测试
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  # 全量任务需要抓取外部词典，只允许手动触发，避免在别人站点上跑定时任务
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  offline:
+    name: 离线测试 + v2 验收
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # 与本地开发一致。引擎版本要求见 README「运行环境」
+          node-version: '24'
+          cache: npm
+
+      - name: 安装依赖
+        run: npm ci
+
+      - name: 单元测试
+        run: npm test
+
+      - name: v2 验收（纯本地，不需要网络与密钥）
+        run: npm run verify:v2
+
+  full:
+    name: 全量测试（含解析 fixture）
+    # 需要在外部站点抓取 fixtures，只手动触发
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: 安装依赖
+        run: npm ci
+
+      - name: 写入 MW 密钥（未配置则留空，MW fixture 会被跳过）
+        env:
+          MW_COLLEGIATE_KEY: ${{ secrets.MW_COLLEGIATE_KEY }}
+          MW_THESAURUS_KEY: ${{ secrets.MW_THESAURUS_KEY }}
+        run: |
+          mkdir -p "$HOME/.english-vocab"
+          : > "$HOME/.english-vocab/secrets.env"
+          if [ -n "$MW_COLLEGIATE_KEY" ]; then
+            echo "MW_COLLEGIATE_KEY=$MW_COLLEGIATE_KEY" >> "$HOME/.english-vocab/secrets.env"
+          fi
+          if [ -n "$MW_THESAURUS_KEY" ]; then
+            echo "MW_THESAURUS_KEY=$MW_THESAURUS_KEY" >> "$HOME/.english-vocab/secrets.env"
+          fi
+          chmod 600 "$HOME/.english-vocab/secrets.env"
+          echo "已写入的密钥条数: $(grep -c '=' "$HOME/.english-vocab/secrets.env" || true)"
+
+      - name: 重新抓取 fixtures
+        run: npm run spike
+
+      - name: 全量单元测试
+        run: npm test

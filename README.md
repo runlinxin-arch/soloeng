@@ -1,5 +1,7 @@
 # 个人英语学习 App
 
+[![测试](https://github.com/runlinxin-arch/soloeng/actions/workflows/test.yml/badge.svg)](https://github.com/runlinxin-arch/soloeng/actions/workflows/test.yml)
+
 只给本人使用的本地英语学习工具：输入一个英文词，几秒内得到一张**完全来自官方词典**的中文讲解卡片，
 自动写进 Obsidian 库，并按间隔重复安排复习。
 
@@ -122,6 +124,25 @@ npm run spike           # 重新抓取官方页面并刷新 fixtures
 ```
 
 数据来源优先级：**牛津 OALD → 剑桥 → Merriam-Webster**；任一来源失败都不会让整次查词失败。
+
+---
+
+## 运行环境与 CI
+
+- **Node ≥ 20.11**（代码用到 `import.meta.dirname`）。开发机与 CI 都用 Node 24。
+- CI（`.github/workflows/test.yml`）在每次 push / PR 上跑 `npm test` 与 `npm run verify:v2`，**不需要任何密钥**。
+
+CI 拿到的是全新克隆，而官方原文 fixture 不随仓库分发，所以这条任务里
+**解析相关的 23 个测试会显示为 skipped**，其余 **166 个照常执行**。
+
+需要完整覆盖时，在 Actions 里手动触发 **full** 任务：它先 `npm run spike` 重新抓取，再跑全量测试。
+
+- 抓取只访问牛津 / 剑桥，**不需要密钥**；但 MW 的 fixture 仍会缺失
+- 因此若未配置 secret，这 23 个测试**依然会全部跳过** —— 测试守卫目前是**按文件**判断
+  fixture 是否存在，缺任意一个就跳过整个文件。要真正解锁，需配置
+  `MW_COLLEGIATE_KEY` 与 `MW_THESAURUS_KEY` 两个 secret，之后 **189 个测试全部执行**
+
+> 抓取类任务一律设为手动触发，不在别人站点上跑定时任务。
 
 ---
 
