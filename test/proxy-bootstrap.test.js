@@ -6,7 +6,7 @@ import { writeFile } from 'node:fs/promises';
 import { tempDir } from './helpers/tmp.js';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { inheritedProxyVars, isReexecChild, readNetworkMode } from '../lib/proxy-bootstrap.js';
+import { PROXY_VARS, inheritedProxyVars, isReexecChild, readNetworkMode } from '../lib/proxy-bootstrap.js';
 
 /**
  * 这一组测试回答一个问题：带着「已失效的代理」启动时，进程还能不能直连上网。
@@ -74,7 +74,7 @@ test('networkMode=env 时不重启（尊重「我要走代理」的选择）', a
 
 test('没有代理变量时不重启（不应无谓多起一层进程）', async () => {
   const env = Object.assign({}, process.env);
-  for (const k of ['http_proxy', 'https_proxy', 'all_proxy', 'HTTP_PROXY', 'HTTPS_PROXY', 'ALL_PROXY', 'NODE_USE_ENV_PROXY']) delete env[k];
+  for (const k of PROXY_VARS) delete env[k];
   const out = await new Promise((resolve) => {
     const child = spawn(process.execPath, [PROBE, targetUrl], { cwd: process.cwd(), env });
     let o = '', e = '';

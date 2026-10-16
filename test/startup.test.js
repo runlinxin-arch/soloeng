@@ -4,6 +4,7 @@ import { spawn } from 'node:child_process';
 import net from 'node:net';
 import { writeFile, rm } from 'node:fs/promises';
 import { tempDir } from './helpers/tmp.js';
+import { PROXY_VARS } from '../lib/proxy-bootstrap.js';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
@@ -17,9 +18,6 @@ import { join } from 'node:path';
  * proxy-bootstrap 的自我重启，多出一个孙进程；kill 掉父进程后孙进程仍持有
  * stdout/stderr 管道，会让测试跑完也退不出去。
  */
-
-const PROXY_VARS = ['http_proxy', 'https_proxy', 'all_proxy',
-                    'HTTP_PROXY', 'HTTPS_PROXY', 'ALL_PROXY', 'NODE_USE_ENV_PROXY'];
 
 function cleanEnv(extra) {
   const env = Object.assign({}, process.env, extra || {});
