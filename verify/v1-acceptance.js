@@ -12,6 +12,7 @@ import path from 'node:path';
 import { loadConfig } from '../lib/config.js';
 import { applyNetworkMode } from '../lib/fetcher.js';
 import { ensureDirectNetwork } from '../lib/proxy-bootstrap.js';
+import { NET_CHECK } from './v1-checks.js';
 import { createService } from '../lib/service.js';
 import * as store from '../lib/store.js';
 import { readCard, listCards, buildIndex } from '../lib/store.js';
@@ -27,11 +28,22 @@ import { fetchText } from '../lib/fetcher.js';
 await ensureDirectNetwork(path.join(import.meta.dirname, '..', 'data', 'config.json'));
 applyNetworkMode('direct');
 
+// 分类表在 verify/v1-checks.js（唯一来源，测试会校验它覆盖九项且与 record() 调用一致）
+const OFFLINE = process.argv.includes('--offline') || process.env.SOLOENG_OFFLINE === '1';
+const WANT_NET = !OFFLINE;
+
 const results = [];
 function record(no, name, pass, detail) {
-  results.push({ no, name, pass: Boolean(pass), detail: detail || '' });
+  results.push({ no, name, pass: Boolean(pass), detail: detail || '', network: no in NET_CHECK, skipped: false });
   const mark = pass ? 'PASS' : 'FAIL';
   console.log('[' + mark + '] §7.1-' + no + ' ' + name + (detail ? '\n         ' + detail : ''));
+}
+
+/** 离线模式下跳过联网项：记为 skipped，不计入通过率也不算失败 */
+function skipNet(no) {
+  const detail = '离线模式：跳过（该项需要实时抓取）';
+  results.push({ no, name: NET_CHECK[no], pass: true, detail, network: true, skipped: true });
+  console.log('[SKIP] §7.1-' + no + ' ' + NET_CHECK[no] + '\n         ' + detail);
 }
 
 const ROOT = path.resolve(import.meta.dirname, '..');
@@ -59,7 +71,7 @@ console.log('模型：' + realCfg.model + ' | MW: ' + (secrets.MW_COLLEGIATE_KEY
 console.log('');
 
 /* ---------- 1 正常查词（写入真实库） ---------- */
-{
+if (WANT_NET) {
   const svc = mkService(realCfg.vaultPath);
   const t0 = Date.now();
   const events = [];
@@ -81,10 +93,12 @@ console.log('');
     '耗时 ' + ms + 'ms（预算 10000ms）| 模式 ' + (r.mode || '?') + ' | 正文 ' + genEvt.length + ' 字 | 文件 ' + card.path +
     ' | frontmatter+4块 ' + (hasFm && hasSrs && hasBlocks) +
     ' | 词性 ' + JSON.stringify(card.data.pos) + ' | due ' + (card.data.srs[0] && card.data.srs[0].due));
+} else {
+  skipNet(1);
 }
 
 /* ---------- 2 回退可用：OALD 无词条时用剑桥 ---------- */
-{
+if (WANT_NET) {
   const svc = mkService(tempVault);
   const oaldProbe = await fetchText('https://www.oxfordlearnersdictionaries.com/definition/english/affect_1', { minIntervalMs: 0 }).catch(() => null);
   const oaldMissing = oaldProbe ? isOaldNotFound(oaldProbe.body) : true;
@@ -94,10 +108,12 @@ console.log('');
     oaldMissing && card.exists && card.data.pos.length > 0,
     'OALD affect 未收录=' + oaldMissing + ' | sources=' + JSON.stringify(r.sources || {}) +
     ' | 词性 ' + JSON.stringify(card.data.pos));
+} else {
+  skipNet(2);
 }
 
 /* ---------- 3 LLM 降级 ---------- */
-{
+if (WANT_NET) {
   const svc = mkService(tempVault);
   const r = await svc.query({ q: 'adverse' }, { onEvent: () => {}, apiKey: null, secrets });
   const card = await readCard(tempVault, 'adverse');
@@ -106,6 +122,8 @@ console.log('');
   record(3, 'LLM 失败仍写入官方内容并标注',
     r.wrote === true && marked && official,
     'llmFailed=' + r.llmFailed + ' | 标注=' + marked + ' | 含官方内容=' + official);
+} else {
+  skipNet(3);
 }
 
 /* ---------- 4 断网保护：绝不写半张卡 ---------- */
@@ -140,15 +158,21 @@ console.log('');
       if (src.includes(bad)) offenders.push(f + ':' + bad);
     }
   }
-  const idx = await buildIndex(tempVault);
-  const again = await buildIndex(tempVault);
+  // 自建一个库、本地造一张卡：让「状态全部来自文件」这件事不依赖前面任何联网检查。
+  // 早先这里扫的是 tempVault，而那张卡其实是联网的 §7.1-2 写进去的 ——
+  // 离线模式下它会变成 0 张，于是这条「确定性」检查反而挂了。
+  const localVault = await tempDir('eng-browserless-');
+  await store.createSkeletonCard(localVault, 'offlinesample', 'sampleother');
+  const idx = await buildIndex(localVault);
+  const again = await buildIndex(localVault);
   record(5, '浏览器零持久化，状态全部来自文件',
     offenders.length === 0 && idx.total === again.total && idx.total > 0,
-    '违规用法=' + (offenders.join(',') || '无') + ' | 重扫词数一致=' + idx.total);
+    '违规用法=' + (offenders.join(',') || '无') + ' | 重扫词数=' + idx.total +
+    '（两次一致=' + (idx.total === again.total) + '）');
 }
 
 /* ---------- 6 不覆盖手写内容 + 覆盖前备份 ---------- */
-{
+if (WANT_NET) {
   const vault = await tempDir('eng-hand-');
   const backupDir = await tempDir('eng-bak-');
   const svc = createService({
@@ -171,10 +195,12 @@ console.log('');
   record(6, '重查不覆盖手写内容，重新生成前有备份',
     manualKept && r2.wrote === true && backupReal.some((f) => f.startsWith('handedit-')),
     '手写内容保留=' + manualKept + ' | mode=' + r2.mode + ' | data/backup 中 handedit 备份=' + backupReal.filter((f) => f.startsWith('handedit-')).length + ' 份');
+} else {
+  skipNet(6);
 }
 
 /* ---------- 7 中文与语法 ---------- */
-{
+if (WANT_NET) {
   const chinese = parseInput('影响');
   const compare = parseInput('affect vs effect');
   const roots = parseInput('affect 词根');
@@ -194,12 +220,13 @@ console.log('');
     chinese.reason === 'chinese' && compare.kind === 'compare' && roots.kind === 'roots' &&
     rejected && srsUnchanged && bodyKept && rootsAdded,
     '中文=' + chinese.reason + ' | 辨析=' + compare.kind + ' | 词根=' + roots.kind +
-    ' | srs 不变=' + srsUnchanged + ' | 原正文保留=' + bodyKep_safe(bodyKept) + ' | 追加=' + rootsAdded);
+    ' | srs 不变=' + srsUnchanged + ' | 原正文保留=' + bodyKept + ' | 追加=' + rootsAdded);
+} else {
+  skipNet(7);
 }
-function bodyKep_safe(v) { return v; }
 
 /* ---------- 8 官方来源铁律：逐条回到官网比对 ---------- */
-{
+if (WANT_NET) {
   const res = await lookup('effect', { secrets, minIntervalMs: 0 });
   const n = res.normalized;
   const { load } = await import('cheerio');
@@ -237,10 +264,12 @@ function bodyKep_safe(v) { return v; }
     ' | 搭配 ' + colItems.length + ' 条，未命中 ' + colMissing.length +
     ' | CEFR 保持 null=' + noCefr + ' | Language Bank 串味=' + langbankLeak +
     (exMissing.length ? ' | 例：' + JSON.stringify(exMissing.slice(0, 2)) : ''));
+} else {
+  skipNet(8);
 }
 
 /* ---------- 9 持久化恢复（等价演练，不删代码） ---------- */
-{
+if (WANT_NET) {
   const vault = await tempDir('eng-recover-');
   const svc = mkService(vault);
   await svc.query({ q: 'effect' }, { onEvent: () => {}, apiKey: null, secrets: {} });
@@ -261,13 +290,38 @@ function bodyKep_safe(v) { return v; }
     same && vaultOutsideApp && after.length === 2,
     '恢复前 ' + before.length + ' 词 / 恢复后 ' + after.length + ' 词 | 到期日与进度完全一致=' + same +
     ' | 库在 app 目录之外=' + vaultOutsideApp);
+} else {
+  skipNet(9);
 }
 
 /* ---------- 报告 ---------- */
-const pass = results.filter((r) => r.pass).length;
+const ran = results.filter((r) => !r.skipped);
+const skipped = results.filter((r) => r.skipped);
+const passed = ran.filter((r) => r.pass);
+const failed = ran.filter((r) => !r.pass);
+
 console.log('');
-console.log('=== v1 验收结果：' + pass + '/' + results.length + ' 通过 ===');
-for (const r of results) console.log((r.pass ? '  ✅' : '  ❌') + ' §7.1-' + r.no + ' ' + r.name);
+console.log('=== v1 验收结果：' + passed.length + '/' + ran.length + ' 通过 ===' +
+  (skipped.length ? '（离线模式另跳过 ' + skipped.length + ' 项联网检查）' : ''));
+
+const line = (r) => (r.pass ? '  ✅' : '  ❌') + ' §7.1-' + r.no + ' ' + r.name;
+const local = ran.filter((r) => !r.network);
+const net = ran.filter((r) => r.network);
+
+console.log('');
+console.log('【确定性项 ' + local.length + ' 个 —— 不依赖外部站点，应当永远稳定】');
+local.forEach((r) => console.log(line(r)));
+
+if (net.length) {
+  console.log('');
+  console.log('【需联网项 ' + net.length + ' 个 —— 依赖实时抓取牛津 / 剑桥】');
+  net.forEach((r) => console.log(line(r)));
+  console.log('');
+  console.log('注意：联网项失败可能来自第三方站点，而不是代码。已知情况：剑桥偶发 Cloudflare');
+  console.log('      挑战（HTTP 403「Just a moment…」），此时 §7.1-2 必挂，§7.1-9 也可能挂。');
+  console.log('      只想看稳定信号：npm run verify:v1:offline');
+}
 
 await rm(tempVault, { recursive: true, force: true });
-process.exit(pass === results.length ? 0 : 1);
+// 退出码只看**实际跑过**的项：离线模式下联网项被跳过，不应该拖累结果
+process.exit(failed.length === 0 ? 0 : 1);

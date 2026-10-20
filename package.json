@@ -13,6 +13,7 @@
     "start": "node server.js",
     "spike": "node spike/run.js",
     "verify:v1": "node verify/v1-acceptance.js",
+    "verify:v1:offline": "node verify/v1-acceptance.js --offline",
     "verify:v2": "node verify/v2-acceptance.js",
     "verify": "npm run verify:v2 && npm run verify:v1",
     "test": "node test/run.js"
